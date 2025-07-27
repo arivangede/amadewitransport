@@ -1,0 +1,113 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String @unique
+  email String @unique
+  password String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Unit {
+  id Int @id @default(autoincrement())
+  name String
+  year Int
+  capacity String
+  inclusions Json[]
+  base_rate Float
+  description String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  images UnitImage[]
+  discounts UnitDiscount[]
+}
+
+model UnitImage {
+  id Int @id @default(autoincrement())
+  path String
+  unit_id Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  unit Unit @relation(references: [id], fields: [unit_id])
+}
+
+model Package {
+  id Int @id @default(autoincrement())
+  name String
+  description String?
+  inclusions Json[]
+  base_rate Float
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  images PackageImage[]
+  discounts PackageDiscount[]
+}
+
+model PackageImage {
+  id Int @id @default(autoincrement())
+  path String
+  package_id Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  package Package @relation(references: [id], fields: [package_id])
+}
+
+model Discount {
+  id Int @id @default(autoincrement())
+  name String
+  description String?
+  discount_type DISCOUNT_TYPE
+  discount_value Float
+  validity Json?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  unit_discounts UnitDiscount[]
+  package_discounts PackageDiscount[]
+}
+
+enum DISCOUNT_TYPE {
+  FIX_VALUE
+  PERCENTAGE
+}
+
+model UnitDiscount {
+  id Int @id @default(autoincrement())
+  discount_id Int
+  unit_id Int
+  created_at DateTime @default(now())
+
+  @@unique([discount_id, unit_id])
+  unit Unit @relation(references: [id], fields: [unit_id])
+  discount Discount @relation(references: [id], fields: [discount_id])
+}
+
+model PackageDiscount {
+  id Int @id @default(autoincrement())
+  discount_id Int
+  package_id Int
+  created_at DateTime @default(now())
+
+  @@unique([discount_id, package_id])
+  package Package @relation(references: [id], fields: [package_id])
+  discount Discount @relation(references: [id], fields: [discount_id])
+}
