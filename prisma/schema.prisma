@@ -6,14 +6,12 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
-
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
-
 model User {
   id Int @id @default(autoincrement())
   name String @unique
@@ -27,7 +25,7 @@ model Unit {
   id Int @id @default(autoincrement())
   name String
   year Int
-  capacity String
+  capacity Int
   inclusions Json[]
   base_rate Float
   description String?
@@ -110,4 +108,15 @@ model PackageDiscount {
   @@unique([discount_id, package_id])
   package Package @relation(references: [id], fields: [package_id])
   discount Discount @relation(references: [id], fields: [discount_id])
+}
+
+model Visitor {
+  id Int @id @default(autoincrement())
+  uuid String
+  path String
+  ip_address String
+  user_agent String
+  device String
+  location String
+  created_at DateTime @default(now())
 }
