@@ -1,14 +1,8 @@
+import { parseIDRPrice } from "@/lib/parsePrice";
 import { prisma } from "@/lib/prisma";
-import { supabase } from "@/lib/supabase";
+import { removeFileInSupabaseStorage } from "@/lib/removeUpload";
 import { uploadToSupabaseStorage } from "@/lib/upload";
-import IncomingForm from "formidable/Formidable";
 import { NextRequest, NextResponse } from "next/server";
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
 
 export async function GET(
   _: NextRequest,
@@ -26,81 +20,114 @@ export async function GET(
   return NextResponse.json(unit);
 }
 
-function parseForm(req: any): Promise<{ fields: any; files: any }> {
-  return new Promise((resolve, reject) => {
-    const form = new IncomingForm({ multiples: true, keepExtensions: true });
-    form.parse(req, (err, fields, files) => {
-      if (err) reject(err);
-      resolve({ fields, files });
-    });
-  });
-}
-
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const id = Number(params.id);
-  const { fields, files } = await parseForm(req as any);
+  try {
+    const { id: unitId } = await params;
+    const formData = await req.formData();
 
-  const { name, year, capacity, base_rate, description } = fields;
+    const name = formData.get("name");
+    const year = formData.get("year");
+    const capacity = formData.get("capacity");
+    const base_rate = formData.get("base_rate");
+    const description = formData.get("description");
+    const inclusions = formData.get("inclusions");
 
-  // Hapus gambar lama dari Supabase
-  const oldImages = await prisma.unitImage.findMany({
-    where: { unit_id: id },
-  });
+    const images = formData.getAll("images") as File[];
 
-  const oldPaths = oldImages.map((img) => img.path.split("/").pop()!);
-  if (oldPaths.length > 0) {
-    await supabase.storage.from("unit").remove(oldPaths);
-  }
+    let removedImages: { id: number }[] = [];
+    const removeImagesRaw = formData.get("remove_image_ids");
+    if (typeof removeImagesRaw === "string") {
+      try {
+        removedImages = JSON.parse(removeImagesRaw);
+      } catch (e) {
+        removedImages = [];
+      }
+    }
 
-  // Upload gambar baru
-  const fileArray = Array.isArray(files.images) ? files.images : [files.images];
-  const uploadedImages: string[] = [];
+    // Hapus gambar dari database dan storage
+    for (const img of removedImages) {
+      if (img && typeof img === "object" && typeof img.id === "number") {
+        const image = await prisma.unitImage.findUnique({
+          where: { id: img.id },
+        });
+        if (image) {
+          await removeFileInSupabaseStorage(image.path, "unit");
+          await prisma.unitImage.delete({
+            where: { id: image.id },
+          });
+        }
+      }
+    }
 
-  for (const file of fileArray) {
-    const url = await uploadToSupabaseStorage(file);
-    uploadedImages.push(url);
-  }
+    // Upload gambar baru ke storage
+    const uploadedImages: string[] = [];
+    for (const file of images) {
+      const url = await uploadToSupabaseStorage(file);
+      uploadedImages.push(url);
+    }
 
-  // Update Unit dan gambar-gambarnya
-  const updated = await prisma.unit.update({
-    where: { id },
-    data: {
-      name: String(name),
-      year: parseInt(year),
-      capacity: parseInt(capacity),
-      base_rate: parseFloat(base_rate),
-      description: description ? String(description) : null,
-      images: {
-        deleteMany: {},
-        create: uploadedImages.map((path) => ({ path })),
+    const parsedPrice = parseIDRPrice(String(base_rate));
+
+    // Update unit
+    const unit = await prisma.unit.update({
+      where: { id: Number(unitId) },
+      data: {
+        name: String(name),
+        year: parseInt(String(year)),
+        capacity: parseInt(String(capacity)),
+        base_rate: parsedPrice,
+        description: description ? String(description) : null,
+        inclusions: inclusions ? JSON.parse(String(inclusions)) : [],
+        images: {
+          create: uploadedImages.map((path) => ({ path })),
+        },
       },
-    },
-    include: { images: true },
-  });
+      include: { images: true },
+    });
 
-  return NextResponse.json({
-    message: "Unit updated successfully",
-    updated,
-  });
+    return NextResponse.json({
+      message: "Unit updated successfully",
+      unit,
+    });
+  } catch (error) {
+    console.error("Error when update unit:", error);
+    return NextResponse.json(
+      { error: "Failed to update unit data", detail: (error as any)?.message },
+      { status: 500 }
+    );
+  }
 }
 
 export async function DELETE(
   _: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const id = Number(params.id);
+  try {
+    const { id: unitId } = await params;
 
-  const images = await prisma.unitImage.findMany({ where: { unit_id: id } });
-  const filenames = images.map((img) => img.path.split("/").pop()!);
+    // get and remove images data
+    const images = await prisma.unitImage.findMany({
+      where: { unit_id: Number(unitId) },
+    });
+    if (images.length > 0) {
+      for (const img of images) {
+        await removeFileInSupabaseStorage(img.path, "unit");
+        await prisma.unit.delete({ where: { id: img.id } });
+      }
+    }
 
-  if (filenames.length > 0) {
-    await supabase.storage.from("unit").remove(filenames);
+    // remove unit data
+    await prisma.unit.delete({ where: { id: Number(unitId) } });
+
+    return NextResponse.json({ message: "Unit deleted successfully" });
+  } catch (error) {
+    console.error("Error when removing Unit:", error);
+    return NextResponse.json(
+      { error: "Failed to remove Unit", detail: (error as any)?.message },
+      { status: 500 }
+    );
   }
-
-  await prisma.unit.delete({ where: { id } });
-
-  return NextResponse.json({ message: "Unit deleted successfully" });
 }

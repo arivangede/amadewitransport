@@ -25,26 +25,58 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2 } from "lucide-react";
+import { Edit, Pencil, Plus, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Loading } from "@/components/loading";
+import { UnitWithRelations } from "@/store/unitStore";
+import { useEffect, useState } from "react";
+import { UnitImage } from "@prisma/client";
 
+// Tipe data form unit
 type UnitFormData = z.infer<typeof UnitSchema>;
-const defaultValues: Partial<UnitFormData> = {
-  name: "",
-  year: new Date().getFullYear(),
-  capacity: 1,
-  inclusions: [],
-  base_rate: 0,
-  description: "",
-  images: undefined,
-};
 
-export default function CreateUnitDialog() {
+function parseInclusions(raw: any): { item: string; description: string }[] {
+  // Jika null/undefined, kembalikan array kosong
+  if (!raw) return [];
+  // Jika sudah array dengan item dan description, kembalikan langsung
+  if (
+    Array.isArray(raw) &&
+    raw.every(
+      (inc) =>
+        inc && typeof inc === "object" && "item" in inc && "description" in inc
+    )
+  ) {
+    return raw as { item: string; description: string }[];
+  }
+  // Jika array of string, konversi ke array objek
+  if (Array.isArray(raw) && typeof raw[0] === "string") {
+    return raw.map((item) => ({ item, description: "" }));
+  }
+  // Jika array of object tanpa item/description, kembalikan array kosong
+  return [];
+}
+
+export default function EditUnitDialog({ unit }: { unit: UnitWithRelations }) {
+  const queryClient = useQueryClient();
+  const [existingImages, setExistingImages] = useState<UnitImage[] | null>(
+    unit.images
+  );
+
+  // Perbaiki defaultValues agar sesuai dengan tipe UnitFormData
+  const defaultValues: Partial<UnitFormData> = {
+    name: unit.name || "",
+    year: unit.year || new Date().getFullYear(),
+    capacity: unit.capacity || 1,
+    inclusions: parseInclusions(unit.inclusions),
+    base_rate: unit.base_rate || 0,
+    description: unit.description || "",
+    images: undefined,
+  };
+
   const form = useForm<UnitFormData>({
     resolver: zodResolver(UnitSchema),
     defaultValues,
@@ -61,14 +93,15 @@ export default function CreateUnitDialog() {
 
   const mutation = useMutation({
     mutationFn: async (values: FormData) => {
-      const res = await api.post("/api/unit", values, {
+      const res = await api.put(`/api/unit/${unit.id}`, values, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return res;
     },
     onSuccess: (res: any) => {
       toast.success(res.data.message);
-      form.reset();
+      queryClient.invalidateQueries({ queryKey: ["units"] });
+      form.resetField("images");
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.error || "Something went wrong");
@@ -87,8 +120,19 @@ export default function CreateUnitDialog() {
     if (values.inclusions) {
       formData.append("inclusions", JSON.stringify(values.inclusions));
     }
-
+    // Hanya upload file baru, bukan dari relasi images
     values.images?.forEach((file) => formData.append("images", file));
+
+    if (unit.images?.length !== existingImages?.length) {
+      formData.append(
+        "remove_image_ids",
+        JSON.stringify(
+          unit.images
+            ?.filter((img) => !existingImages?.find((e) => e.id === img.id))
+            .map((img) => ({ id: img.id }))
+        )
+      );
+    }
 
     mutation.mutate(formData);
   }
@@ -96,13 +140,15 @@ export default function CreateUnitDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="font-semibold">Add +</Button>
+        <Button variant="outline" size="sm">
+          <Edit className="h-4 w-4" />
+        </Button>
       </DialogTrigger>
-      <Form {...form}>
-        <DialogContent className="max-h-screen overflow-y-auto">
+      <DialogContent className="max-h-screen overflow-y-auto">
+        <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <DialogHeader>
-              <DialogTitle>Register New Unit +</DialogTitle>
+              <DialogTitle>Edit Unit</DialogTitle>
               <DialogDescription>
                 Please fill out the form below to add a new unit to the system.
                 Make sure all information is correct before saving.
@@ -117,7 +163,7 @@ export default function CreateUnitDialog() {
                   <FormItem>
                     <FormLabel>Unit Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g Toyota Avanza 2020" {...field} />
+                      <Input placeholder="e.g: Toyota Avanza 2020" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -154,7 +200,7 @@ export default function CreateUnitDialog() {
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Enter capacity"
+                        placeholder="Enter Capacity"
                         {...field}
                         onChange={(e) =>
                           field.onChange(Number.parseInt(e.target.value) || 0)
@@ -225,7 +271,7 @@ export default function CreateUnitDialog() {
                   disabled={mutation.isPending}
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  Add Inclusion
+                  Add Inclusions
                 </Button>
               </div>
 
@@ -241,7 +287,7 @@ export default function CreateUnitDialog() {
                             <FormLabel>Item</FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="e.g., GPS Navigation"
+                                placeholder="e.g: GPS Navigation"
                                 {...field}
                               />
                             </FormControl>
@@ -258,7 +304,7 @@ export default function CreateUnitDialog() {
                             <FormLabel>Description (Optional)</FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Additional details..."
+                                placeholder="Additional detail..."
                                 {...field}
                                 value={field.value || ""}
                               />
@@ -282,7 +328,7 @@ export default function CreateUnitDialog() {
               ))}
             </div>
 
-            {/* Images */}
+            {/* Upload Gambar */}
             <FormField
               control={form.control}
               name="images"
@@ -316,6 +362,11 @@ export default function CreateUnitDialog() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {(form.watch("images") ?? []).map((file, index) => (
                     <div key={index} className="text-sm p-2 bg-muted rounded">
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={`Image ${index}`}
+                        className="w-full h-auto object-cover"
+                      />
                       <p className="truncate">{file.name}</p>
                       <p className="text-xs text-muted-foreground">
                         {(file.size / 1024 / 1024).toFixed(2)} MB
@@ -326,19 +377,64 @@ export default function CreateUnitDialog() {
               </div>
             )}
 
+            {/* Tampilkan gambar yang sudah ada jika ada */}
+            {existingImages &&
+              Array.isArray(existingImages) &&
+              existingImages.length > 0 && (
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium">Existing Images:</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {existingImages.map((img, index) => (
+                      <div
+                        key={img.id}
+                        className="relative group border rounded overflow-hidden"
+                      >
+                        <img
+                          src={img.path}
+                          alt={`Image ${index}`}
+                          className="w-full h-auto object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setExistingImages((prev) => {
+                              if (!prev) return [];
+                              // Hapus gambar berdasarkan id, jika hasilnya kosong, kembalikan array kosong
+                              const filtered = prev.filter(
+                                (item) => item.id !== img.id
+                              );
+                              return filtered.length > 0 ? filtered : [];
+                            })
+                          }
+                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant={"outline"} onClick={() => form.reset()}>
+                <Button
+                  variant={"outline"}
+                  onClick={() => {
+                    form.reset();
+                    setExistingImages(unit.images);
+                  }}
+                >
                   Cancel
                 </Button>
               </DialogClose>
               <Button type="submit" disabled={mutation.isPending}>
-                {mutation.isPending ? <Loading /> : "Register New Unit"}
+                {mutation.isPending ? <Loading /> : "Save Changes"}
               </Button>
             </DialogFooter>
           </form>
-        </DialogContent>
-      </Form>
+        </Form>
+      </DialogContent>
     </Dialog>
   );
 }

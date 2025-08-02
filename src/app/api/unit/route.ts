@@ -4,8 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const units = await prisma.unit.findMany({
-    include: { images: true },
-    orderBy: { created_at: "desc" },
+    include: { images: true, discounts: true },
+    orderBy: { created_at: "asc" },
   });
 
   return NextResponse.json(units);
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
   const uploadedImages: string[] = [];
 
   for (const file of images) {
-    const url = await uploadToSupabaseStorage(file); // Harus mendukung File Web API
+    const url = await uploadToSupabaseStorage(file);
     uploadedImages.push(url);
   }
 

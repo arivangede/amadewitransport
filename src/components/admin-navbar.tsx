@@ -36,18 +36,15 @@ export default function AdminNavbar() {
   }
 
   return (
-    <div className="flex-1 flex justify-between items-center text-foreground">
+    <div className="flex-1 flex justify-between items-center text-foreground p-4">
       <div className="flex flex-col items-center md:flex-row md:gap-2">
         <span className="text-2xl font-bold">
           <span className="text-primary">AD</span>TS
         </span>
-        <div className="md:hidden">
-          <Separator orientation="horizontal" className="bg-foreground" />
-        </div>
-        <div className="hidden md:block">
-          <Separator orientation="vertical" className="bg-foreground" />
-        </div>
-        <span className="font-semibold text-sm md:text-md">Admin Panel</span>
+
+        <span className="font-semibold text-sm hidden md:inline-block md:text-md">
+          | Admin Panel
+        </span>
       </div>
       {isLoading ? (
         <div>
@@ -56,7 +53,8 @@ export default function AdminNavbar() {
       ) : user ? (
         <div className="flex justify-end items-center gap-2 md:gap-4 md:justify-start">
           <h3 className="text-sm text-end md:text-md">
-            {getGreeting()}! <span className="font-bold">{user.name}</span>
+            {getGreeting()}! <br />{" "}
+            <span className="font-bold">{user.name}</span>
           </h3>
           <UserSettingsSheet />
         </div>

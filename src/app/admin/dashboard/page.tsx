@@ -4,18 +4,18 @@ import UnitSection from "@/components/unit/UnitSection";
 
 export default function Page() {
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4">
-      <div className="flex-1 rounded-xl md:min-h-min">
-        <AdminNavbar />
-      </div>
-      <h1 className="font-bold text-2xl">Dashboard</h1>
-      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-        <div className="bg-muted/50 aspect-video rounded-xl">
-          <UnitSection />
+    <div className="flex flex-col min-h-screen bg-background">
+      <AdminNavbar />
+      <main className="flex-1 p-4 flex flex-col gap-6 pb-6">
+        <h1 className="font-bold text-2xl mb-2">Dashboard</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <section className="bg-white rounded-xl shadow flex flex-col min-h-[300px]">
+            <UnitSection />
+          </section>
+          <section className="bg-muted/50 rounded-xl shadow min-h-[300px]" />
         </div>
-        <div className="bg-muted/50 aspect-video rounded-xl" />
-        <div className="bg-muted/50 aspect-video rounded-xl" />
-      </div>
+        <section className="bg-muted/50 rounded-xl shadow min-h-[300px] w-full" />
+      </main>
     </div>
   );
 }
