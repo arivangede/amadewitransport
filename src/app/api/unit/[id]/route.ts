@@ -1,4 +1,3 @@
-import { parseIDRPrice } from "@/lib/parsePrice";
 import { prisma } from "@/lib/prisma";
 import { removeFileInSupabaseStorage } from "@/lib/removeUpload";
 import { uploadToSupabaseStorage } from "@/lib/upload";
@@ -10,7 +9,7 @@ export async function GET(
 ) {
   const unit = await prisma.unit.findUnique({
     where: { id: Number(params.id) },
-    include: { images: true },
+    include: { images: true, discounts: true },
   });
 
   if (!unit) {
@@ -69,8 +68,6 @@ export async function PUT(
       uploadedImages.push(url);
     }
 
-    const parsedPrice = parseIDRPrice(String(base_rate));
-
     // Update unit
     const unit = await prisma.unit.update({
       where: { id: Number(unitId) },
@@ -78,7 +75,7 @@ export async function PUT(
         name: String(name),
         year: parseInt(String(year)),
         capacity: parseInt(String(capacity)),
-        base_rate: parsedPrice,
+        base_rate: parseFloat(String(base_rate)),
         description: description ? String(description) : null,
         inclusions: inclusions ? JSON.parse(String(inclusions)) : [],
         images: {
