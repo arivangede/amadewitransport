@@ -29,16 +29,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
-import { Edit, Pencil, Plus, Trash2 } from "lucide-react";
+import { Edit, Plus, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Loading } from "@/components/loading";
 import { UnitWithRelations } from "@/store/unitStore";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { UnitImage } from "@prisma/client";
+import Image from "next/image";
 
 // Tipe data form unit
 type UnitFormData = z.infer<typeof UnitSchema>;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function parseInclusions(raw: any): { item: string; description: string }[] {
   // Jika null/undefined, kembalikan array kosong
   if (!raw) return [];
@@ -98,11 +100,13 @@ export default function EditUnitDialog({ unit }: { unit: UnitWithRelations }) {
       });
       return res;
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSuccess: (res: any) => {
       toast.success(res.data.message);
       queryClient.invalidateQueries({ queryKey: ["units"] });
       form.resetField("images");
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (err: any) => {
       toast.error(err.response?.data?.error || "Something went wrong");
     },
@@ -332,6 +336,7 @@ export default function EditUnitDialog({ unit }: { unit: UnitWithRelations }) {
             <FormField
               control={form.control}
               name="images"
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               render={({ field: { onChange, value, ...field } }) => (
                 <FormItem>
                   <FormLabel>Upload Images (Optional)</FormLabel>
@@ -362,10 +367,12 @@ export default function EditUnitDialog({ unit }: { unit: UnitWithRelations }) {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {(form.watch("images") ?? []).map((file, index) => (
                     <div key={index} className="text-sm p-2 bg-muted rounded">
-                      <img
+                      <Image
                         src={URL.createObjectURL(file)}
                         alt={`Image ${index}`}
                         className="w-full h-auto object-cover"
+                        height={150}
+                        width={250}
                       />
                       <p className="truncate">{file.name}</p>
                       <p className="text-xs text-muted-foreground">
@@ -389,10 +396,12 @@ export default function EditUnitDialog({ unit }: { unit: UnitWithRelations }) {
                         key={img.id}
                         className="relative group border rounded overflow-hidden"
                       >
-                        <img
+                        <Image
                           src={img.path}
                           alt={`Image ${index}`}
                           className="w-full h-auto object-cover"
+                          height={200}
+                          width={350}
                         />
                         <button
                           type="button"

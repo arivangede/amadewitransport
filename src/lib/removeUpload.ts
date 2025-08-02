@@ -5,7 +5,6 @@ export async function removeFileInSupabaseStorage(
   folder: string = "unit"
 ): Promise<boolean> {
   const pathFile = getRelativePathFromPublicUrl(path, folder);
-  console.log("path", pathFile);
   const { data, error } = await supabase.storage
     .from(folder)
     .remove([pathFile]);
@@ -14,7 +13,6 @@ export async function removeFileInSupabaseStorage(
     throw new Error("Failed when removing file: " + error.message);
   }
 
-  console.log(data);
   return Array.isArray(data) && data.length > 0;
 }
 

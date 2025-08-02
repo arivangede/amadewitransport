@@ -34,10 +34,12 @@ export default function AccountForm() {
       const res = await api.put("/api/user/account-info", values);
       return res;
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSuccess: (res: any) => {
       setUser(res.data.user);
       toast.success(res.data.message);
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (err: any) => {
       toast.error(err.response?.data?.error || "Something went wrong");
     },

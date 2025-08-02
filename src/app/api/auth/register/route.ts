@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
     });
 
     return res;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     console.error("REGISTER ERROR:", err);
     return NextResponse.json(

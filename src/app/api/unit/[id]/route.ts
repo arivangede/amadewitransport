@@ -5,10 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   _: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id: unitId } = await params;
   const unit = await prisma.unit.findUnique({
-    where: { id: Number(params.id) },
+    where: { id: Number(unitId) },
     include: { images: true, discounts: true },
   });
 
@@ -42,6 +43,7 @@ export async function PUT(
       try {
         removedImages = JSON.parse(removeImagesRaw);
       } catch (e) {
+        console.error(e);
         removedImages = [];
       }
     }
@@ -92,6 +94,7 @@ export async function PUT(
   } catch (error) {
     console.error("Error when update unit:", error);
     return NextResponse.json(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       { error: "Failed to update unit data", detail: (error as any)?.message },
       { status: 500 }
     );
@@ -112,7 +115,7 @@ export async function DELETE(
     if (images.length > 0) {
       for (const img of images) {
         await removeFileInSupabaseStorage(img.path, "unit");
-        await prisma.unit.delete({ where: { id: img.id } });
+        await prisma.unitImage.delete({ where: { id: img.id } });
       }
     }
 
@@ -123,6 +126,7 @@ export async function DELETE(
   } catch (error) {
     console.error("Error when removing Unit:", error);
     return NextResponse.json(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       { error: "Failed to remove Unit", detail: (error as any)?.message },
       { status: 500 }
     );

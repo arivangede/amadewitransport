@@ -5,7 +5,6 @@ import useUserStore from "@/store/userStore";
 import { useQuery } from "@tanstack/react-query";
 import { Loading } from "./loading";
 import { UserSettingsSheet } from "./user/UserSettingsSheet";
-import { Separator } from "./ui/separator";
 
 export default function AdminNavbar() {
   const { user, setUser } = useUserStore();
@@ -36,7 +35,7 @@ export default function AdminNavbar() {
   }
 
   return (
-    <div className="flex-1 flex justify-between items-center text-foreground p-4">
+    <div className="flex justify-between items-center text-foreground p-4 w-full">
       <div className="flex flex-col items-center md:flex-row md:gap-2">
         <span className="text-2xl font-bold">
           <span className="text-primary">AD</span>TS

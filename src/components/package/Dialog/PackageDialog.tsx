@@ -1,20 +1,22 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import z from "zod";
+import { PackageSchema } from "../forms/schemas";
+import { useFieldArray, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import api from "@/lib/axios";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { DialogClose } from "@radix-ui/react-dialog";
-import { UnitSchema } from "../forms/schemas";
-import z from "zod";
-import { useFieldArray, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -24,30 +26,64 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { DialogDescription } from "@radix-ui/react-dialog";
 import { Input } from "@/components/ui/input";
-import { useMutation } from "@tanstack/react-query";
-import api from "@/lib/axios";
-import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2 } from "lucide-react";
+import { Edit, Plus, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Loading } from "@/components/loading";
+import { PackageWithRelations } from "@/store/packageStore";
+import { useState } from "react";
+import { PackageImage } from "@prisma/client";
 import Image from "next/image";
 
-type UnitFormData = z.infer<typeof UnitSchema>;
-const defaultValues: Partial<UnitFormData> = {
-  name: "",
-  year: new Date().getFullYear(),
-  capacity: 1,
-  inclusions: [],
-  base_rate: 0,
-  description: "",
-  images: undefined,
-};
+type PackageFormData = z.infer<typeof PackageSchema>;
 
-export default function CreateUnitDialog() {
-  const form = useForm<UnitFormData>({
-    resolver: zodResolver(UnitSchema),
+interface PackageDialogProps {
+  variant: "create" | "edit" | "delete";
+  package?: PackageWithRelations;
+}
+
+function parseInclusions(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  raw: any
+): { item: string; description: string }[] {
+  if (!raw) return [];
+
+  if (
+    Array.isArray(raw) &&
+    raw.every(
+      (inc) =>
+        inc && typeof inc === "object" && "item" in inc && "description" in inc
+    )
+  ) {
+    return raw as { item: string; description: string }[];
+  }
+
+  if (Array.isArray(raw) && typeof raw[0] === "string") {
+    return raw.map((item) => ({ item, description: "" }));
+  }
+
+  return [];
+}
+
+export default function PackageDialog({
+  variant,
+  package: pkg,
+}: PackageDialogProps) {
+  const queryClient = useQueryClient();
+  const [existingImages, setExistingImages] = useState<PackageImage[] | null>(
+    pkg?.images || null
+  );
+  const defaultValues: Partial<PackageFormData> = {
+    name: pkg?.name || "",
+    description: pkg?.description || "",
+    inclusions: parseInclusions(pkg?.inclusions) || [],
+    base_rate: pkg?.base_rate || 0,
+    images: undefined,
+  };
+  const form = useForm<PackageFormData>({
+    resolver: zodResolver(PackageSchema),
     defaultValues,
   });
 
@@ -60,15 +96,37 @@ export default function CreateUnitDialog() {
     name: "inclusions",
   });
 
-  const mutation = useMutation({
-    mutationFn: async (values: FormData) => {
-      const res = await api.post("/api/unit", values, {
+  const ApiMethod = {
+    create: async (values: FormData) => {
+      const res = await api.post("/api/package", values, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return res;
     },
+    edit: async (values: FormData) => {
+      if (variant === "edit" && pkg) {
+        const res = api.put(`/api/package/${pkg.id}`, values, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        return res;
+      }
+    },
+    delete: async () => {
+      if (variant === "delete" && pkg) {
+        const res = await api.delete(`/api/package/${pkg.id}`);
+        return res;
+      }
+    },
+  };
+
+  const mutation = useMutation({
+    mutationFn: async (values: FormData) => {
+      const res = await ApiMethod[variant](values);
+      return res;
+    },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSuccess: (res: any) => {
+      queryClient.invalidateQueries({ queryKey: ["packages"] });
       toast.success(res.data.message);
       form.reset();
     },
@@ -78,37 +136,84 @@ export default function CreateUnitDialog() {
     },
   });
 
-  function onSubmit(values: UnitFormData) {
+  function onSubmit(values: PackageFormData) {
     const formData = new FormData();
     formData.append("name", values.name);
-    formData.append("year", values.year.toString());
-    formData.append("capacity", values.capacity.toString());
-    formData.append("base_rate", values.base_rate.toString());
     if (values.description) {
       formData.append("description", values.description);
     }
     if (values.inclusions) {
       formData.append("inclusions", JSON.stringify(values.inclusions));
     }
+    formData.append("base_rate", values.base_rate.toString());
 
     values.images?.forEach((file) => formData.append("images", file));
 
+    if (variant === "edit" && pkg?.images?.length !== existingImages?.length) {
+      formData.append(
+        "remove_image_ids",
+        JSON.stringify(
+          pkg?.images
+            ?.filter((img) => !existingImages?.find((e) => e.id === img.id))
+            .map((img) => ({ id: img.id }))
+        )
+      );
+    }
+
     mutation.mutate(formData);
+  }
+
+  if (variant === "delete") {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="outline" size="sm">
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogTitle>Remove Package Alert</DialogTitle>
+          <DialogDescription className="text-base">
+            Are you sure you want to remove this package? <br />
+            <span className="text-destructive font-semibold">
+              (this process cannot be undone)
+            </span>
+          </DialogDescription>
+
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant={"outline"}>Cancel</Button>
+            </DialogClose>
+            <Button
+              onClick={() => onSubmit(form.getValues())}
+              disabled={mutation.isPending}
+            >
+              {mutation.isPending ? <Loading /> : "Remove Package"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="font-semibold">Add +</Button>
+        <Button
+          variant={variant === "create" ? "default" : "outline"}
+          className="font-semibold"
+        >
+          {variant === "create" ? "Add +" : <Edit className="h-4 w-4" />}
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-h-screen overflow-y-auto">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <DialogHeader>
-              <DialogTitle>Register New Unit +</DialogTitle>
+              <DialogTitle>Register New Package +</DialogTitle>
               <DialogDescription>
-                Please fill out the form below to add a new unit to the system.
-                Make sure all information is correct before saving.
+                Please fill out the form below to add a new package to the
+                system. Make sure all information is correct before saving.
               </DialogDescription>
             </DialogHeader>
 
@@ -118,53 +223,10 @@ export default function CreateUnitDialog() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Unit Name</FormLabel>
+                    <FormLabel>Package Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g Toyota Avanza 2020" {...field} />
+                      <Input placeholder="e.g Weekend Holiday" {...field} />
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="year"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Year</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Enter year"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(Number.parseInt(e.target.value) || 0)
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="capacity"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Capacity</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Enter capacity"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(Number.parseInt(e.target.value) || 0)
-                        }
-                      />
-                    </FormControl>
-                    <FormDescription>Number of passengers</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -186,7 +248,6 @@ export default function CreateUnitDialog() {
                         }
                       />
                     </FormControl>
-                    <FormDescription>Base rental rate</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -201,7 +262,7 @@ export default function CreateUnitDialog() {
                   <FormLabel>Description (Optional)</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter car description..."
+                      placeholder="Enter package description..."
                       className="min-h-[100px]"
                       {...field}
                       value={field.value || ""}
@@ -217,7 +278,7 @@ export default function CreateUnitDialog() {
                 <div>
                   <h3 className="text-lg font-medium">Inclusions (Optional)</h3>
                   <p className="text-sm text-muted-foreground">
-                    Add items that are included with this car rental
+                    Add items that are included with this package
                   </p>
                 </div>
                 <Button
@@ -243,10 +304,7 @@ export default function CreateUnitDialog() {
                           <FormItem>
                             <FormLabel>Item</FormLabel>
                             <FormControl>
-                              <Input
-                                placeholder="e.g., GPS Navigation"
-                                {...field}
-                              />
+                              <Input placeholder="e.g., City Tour" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -285,7 +343,6 @@ export default function CreateUnitDialog() {
               ))}
             </div>
 
-            {/* Images */}
             <FormField
               control={form.control}
               name="images"
@@ -306,7 +363,7 @@ export default function CreateUnitDialog() {
                     />
                   </FormControl>
                   <FormDescription>
-                    Select multiple image files for the car
+                    Select multiple image files for the package
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -337,14 +394,69 @@ export default function CreateUnitDialog() {
               </div>
             )}
 
+            {/* Tampilkan gambar yang sudah ada jika ada */}
+            {existingImages &&
+              Array.isArray(existingImages) &&
+              existingImages.length > 0 && (
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium">Existing Images:</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {existingImages.map((img, index) => (
+                      <div
+                        key={img.id}
+                        className="relative group border rounded overflow-hidden"
+                      >
+                        <Image
+                          src={img.path}
+                          alt={`Image ${index}`}
+                          className="w-full h-auto object-cover"
+                          height={200}
+                          width={350}
+                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setExistingImages((prev) => {
+                              if (!prev) return [];
+                              // Hapus gambar berdasarkan id, jika hasilnya kosong, kembalikan array kosong
+                              const filtered = prev.filter(
+                                (item) => item.id !== img.id
+                              );
+                              return filtered.length > 0 ? filtered : [];
+                            })
+                          }
+                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant={"outline"} onClick={() => form.reset()}>
+                <Button
+                  variant={"outline"}
+                  onClick={() => {
+                    form.reset();
+                    if (pkg?.images) {
+                      setExistingImages(pkg?.images);
+                    }
+                  }}
+                >
                   Cancel
                 </Button>
               </DialogClose>
               <Button type="submit" disabled={mutation.isPending}>
-                {mutation.isPending ? <Loading /> : "Register New Unit"}
+                {mutation.isPending ? (
+                  <Loading />
+                ) : variant === "create" ? (
+                  "Register New Package"
+                ) : (
+                  "Save Changes"
+                )}
               </Button>
             </DialogFooter>
           </form>

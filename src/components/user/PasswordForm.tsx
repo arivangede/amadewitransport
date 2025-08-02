@@ -33,9 +33,11 @@ export default function PasswordForm() {
       const res = await api.put("/api/user/change-password", values);
       return res;
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSuccess: (res: any) => {
       toast.success(res.data.message);
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (err: any) => {
       toast.error(err.response?.data?.error || "Something went wrong");
     },

@@ -12,7 +12,7 @@ import {
 import api from "@/lib/axios";
 import { UnitWithRelations } from "@/store/unitStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Trash, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function RemoveUnitDialog({
@@ -27,10 +27,12 @@ export default function RemoveUnitDialog({
       const res = await api.delete(`/api/unit/${unit.id}`);
       return res;
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSuccess: (res: any) => {
       toast.success(res.data.message);
       queryClient.invalidateQueries({ queryKey: ["units"] });
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (err: any) => {
       toast.error(err.response?.data?.error || "Something went wrong");
     },

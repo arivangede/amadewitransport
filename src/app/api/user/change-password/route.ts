@@ -16,7 +16,7 @@ export async function PUT(req: NextRequest) {
   const { old_password, new_password } = await req.json();
 
   const user = await prisma.user.findUnique({
-    where: { id: Number((decoded as { id: Number }).id) },
+    where: { id: Number((decoded as { id: number }).id) },
   });
 
   if (!user) {

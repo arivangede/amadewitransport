@@ -1,38 +1,42 @@
 "use client";
-import Image from "next/image";
-import { UnitWithRelations } from "@/store/unitStore";
-import EditUnitDialog from "./Dialog/EditUnitDialog";
-import RemoveUnitDialog from "./Dialog/RemoveUnitDialog";
+
 import { useState } from "react";
+import Image from "next/image";
+import {
+  Package2,
+  Star,
+  CheckCircle,
+  Tag,
+  Percent,
+  DollarSign,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+} from "lucide-react";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import {
-  Calendar,
-  CheckCircle,
-  ChevronLeft,
-  ChevronRight,
-  DollarSign,
-  Percent,
-  Star,
-  Tag,
-  Users,
-} from "lucide-react";
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
-import { Separator } from "../ui/separator";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { PackageWithRelations } from "@/store/packageStore";
+import PackageDialog from "./Dialog/PackageDialog";
 
-interface CarUnitCardProps {
-  unit: UnitWithRelations;
+interface PackageCardProps {
+  package: PackageWithRelations;
   variant: "admin" | "guest";
-  onBook?: (unit: UnitWithRelations) => void;
+  onBook?: (pkg: PackageWithRelations) => void;
 }
 
-export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
+export function PackageCard({
+  package: pkg,
+  variant,
+  onBook,
+}: PackageCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const formatPrice = (price: number) => {
@@ -45,25 +49,26 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
   };
 
   const getDiscountedPrice = () => {
-    if (!unit.discounts || unit.discounts.length === 0) return unit.base_rate;
+    if (!pkg.discounts || pkg.discounts.length === 0) return pkg.base_rate;
 
-    const activeDiscount = unit.discounts[0].discount;
-    if (!activeDiscount) return unit.base_rate;
+    const activeDiscount = pkg.discounts[0]?.discount;
+    if (!activeDiscount) return pkg.base_rate;
 
     if (activeDiscount.discount_type === "PERCENTAGE") {
-      return unit.base_rate * (1 - activeDiscount.discount_value / 100);
+      return pkg.base_rate * (1 - activeDiscount.discount_value / 100);
+    } else {
+      return pkg.base_rate - activeDiscount.discount_value;
     }
-    return unit.base_rate - activeDiscount.discount_value;
   };
 
   const discountedPrice = getDiscountedPrice();
-  const hasDiscount = discountedPrice < unit.base_rate;
-  const activeDiscount = unit.discounts?.[0]?.discount;
+  const hasDiscount = discountedPrice < pkg.base_rate;
+  const activeDiscount = pkg.discounts?.[0]?.discount;
 
-  const images = unit.images ?? [];
+  const images = pkg.images ?? [];
 
-  const inclusions = Array.isArray(unit.inclusions)
-    ? (unit.inclusions as unknown as { item: string; description: string }[])
+  const inclusions = Array.isArray(pkg.inclusions)
+    ? (pkg.inclusions as unknown as { item: string; description: string }[])
     : [];
 
   const nextImage = () => {
@@ -89,11 +94,11 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
             <div className="relative w-full h-32 md:w-24 md:h-16 rounded-lg overflow-hidden flex-shrink-0">
               <Image
                 src={images[0]?.path || "https://placehold.co/150x150.png"}
-                alt={unit.name}
-                priority
+                alt={pkg.name}
                 height={150}
                 width={250}
-                className="object-contain"
+                priority
+                className="object-cover"
               />
               {images.length > 1 && (
                 <div className="absolute bottom-1 right-1 bg-black/70 text-white px-1 rounded text-xs">
@@ -106,26 +111,25 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
             <div className="flex-1 min-w-0">
               <div className="flex flex-col justify-between">
                 <div>
-                  <h3 className="font-semibold text-lg truncate">
-                    {unit.name}
+                  <h3 className="font-semibold text-lg truncate flex items-center gap-2">
+                    <Package2 className="h-4 w-4" />
+                    {pkg.name}
                   </h3>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      {unit.year}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Users className="h-3 w-3" />
-                      {unit.capacity} seats
-                    </span>
-                    <span>ID: {unit.id}</span>
+                    <span>ID: {pkg.id}</span>
+                    <span>{pkg.inclusions.length} inclusions</span>
+                    {pkg.description && (
+                      <span className="truncate max-w-[200px]">
+                        {pkg.description}
+                      </span>
+                    )}
                   </div>
                 </div>
 
                 {/* Price & Discount */}
                 <div className="mt-6 md:mt-0 flex-shrink-0">
                   <div className="font-bold text-lg">
-                    {formatPrice(unit.base_rate)}
+                    {formatPrice(pkg.base_rate)}
                   </div>
                   {hasDiscount && (
                     <Badge variant="destructive" className="text-xs">
@@ -141,8 +145,8 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
             </div>
             {/* Actions */}
             <div className="flex gap-2 ml-4">
-              <EditUnitDialog unit={unit} />
-              <RemoveUnitDialog unit={unit} />
+              <PackageDialog variant="edit" package={pkg} />
+              <PackageDialog variant="delete" package={pkg} />
             </div>
           </div>
         </CardContent>
@@ -152,7 +156,7 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
 
   // Guest variant with integrated discount and image carousel
   return (
-    <Card className="w-full max-w-sm hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
+    <Card className="w-full max-w-sm hover:shadow-lg transition-shadow duration-300 border-2 hover:border-primary/20 relative overflow-hidden">
       {hasDiscount && (
         <div className="absolute top-0 right-0 z-10">
           <div className="bg-gradient-to-l from-red-500 to-red-600 text-white px-3 py-1 text-sm font-bold flex items-center gap-1">
@@ -171,10 +175,18 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
 
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
-          <CardTitle className="text-xl">{unit.name}</CardTitle>
+          <div>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <Package2 className="h-5 w-5 text-primary" />
+              {pkg.name}
+            </CardTitle>
+            <Badge variant="outline" className="mt-1 w-fit">
+              Paket Lengkap
+            </Badge>
+          </div>
           <div className="flex items-center gap-1">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            <span className="text-sm font-medium">4.8</span>
+            <span className="text-sm font-medium">4.9</span>
           </div>
         </div>
       </CardHeader>
@@ -185,12 +197,12 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
             <Image
               src={
                 images[currentImageIndex]?.path ||
-                "/placeholder.svg?height=200&width=300&query=modern car"
+                "https://placehold.co/150x150.png"
               }
-              alt={unit.name}
-              priority
+              alt={pkg.name}
               height={400}
               width={600}
+              priority
               className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
 
@@ -236,31 +248,34 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
                 </div>
               </>
             )}
+
+            <div className="absolute top-2 right-2 bg-primary text-white px-2 py-1 rounded text-xs font-medium">
+              POPULER
+            </div>
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="flex items-center gap-2 text-sm">
-            <Calendar className="h-4 w-4 text-primary" />
-            <span className="font-medium">{unit.year}</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm">
-            <Users className="h-4 w-4 text-primary" />
-            <span className="font-medium">{unit.capacity} seats</span>
-          </div>
-        </div>
+        {pkg.description && (
+          <p className="text-sm text-muted-foreground">{pkg.description}</p>
+        )}
 
         <div>
-          <p className="text-sm font-medium mb-2 text-muted-foreground">
-            What&apos;s included:
+          <p className="text-sm font-medium mb-3 flex items-center gap-2">
+            <CheckCircle className="h-4 w-4 text-green-500" />
+            Semua termasuk:
           </p>
-          <div className="space-y-1">
-            {inclusions.slice(0, 4).map((inclusion, index) => (
+          <div className="space-y-2">
+            {inclusions.slice(0, 5).map((inclusion, index) => (
               <div key={index} className="flex items-center gap-2 text-sm">
-                <CheckCircle className="h-3 w-3 text-green-500" />
+                <CheckCircle className="h-3 w-3 text-green-500 flex-shrink-0" />
                 <span>{inclusion.item}</span>
               </div>
             ))}
+            {pkg.inclusions.length > 5 && (
+              <p className="text-xs text-muted-foreground ml-5">
+                +{pkg.inclusions.length - 5} fasilitas lainnya
+              </p>
+            )}
           </div>
         </div>
 
@@ -279,9 +294,9 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
               </p>
             )}
             <div className="flex items-center justify-between">
-              <span className="text-sm text-red-600">Limited time offer</span>
+              <span className="text-sm text-red-600">Penawaran terbatas</span>
               <Badge variant="destructive" className="text-xs">
-                Save {formatPrice(unit.base_rate - discountedPrice)}
+                Hemat {formatPrice(pkg.base_rate - discountedPrice)}
               </Badge>
             </div>
           </div>
@@ -293,24 +308,30 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
           <div>
             {hasDiscount ? (
               <div>
-                <p className="text-lg font-bold text-green-600">
+                <p className="text-2xl font-bold text-green-600">
                   {formatPrice(discountedPrice)}
                 </p>
                 <p className="text-sm text-muted-foreground line-through">
-                  {formatPrice(unit.base_rate)}
+                  {formatPrice(pkg.base_rate)}
                 </p>
               </div>
             ) : (
-              <p className="text-lg font-bold">{formatPrice(unit.base_rate)}</p>
+              <p className="text-2xl font-bold">{formatPrice(pkg.base_rate)}</p>
             )}
-            <p className="text-xs text-muted-foreground">per hari</p>
+            <p className="text-xs text-muted-foreground">paket lengkap</p>
+          </div>
+          <div className="text-right">
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <Clock className="h-3 w-3" />
+              <span>Waktu terbatas</span>
+            </div>
           </div>
         </div>
       </CardContent>
 
       <CardFooter>
-        <Button className="w-full" onClick={() => onBook?.(unit)}>
-          {hasDiscount ? "Pesan dengan Diskon" : "Pesan Sekarang"}
+        <Button className="w-full" size="lg" onClick={() => onBook?.(pkg)}>
+          {hasDiscount ? "Pesan Paket dengan Diskon" : "Pesan Paket Sekarang"}
         </Button>
       </CardFooter>
     </Card>

@@ -1,17 +1,17 @@
 "use client";
 
 import api from "@/lib/axios";
-import CreateUnitDialog from "./Dialog/CreateUnitDialog";
-import { CarUnitCard } from "./UnitCard";
 import { useQuery } from "@tanstack/react-query";
-import { UnitWithRelations } from "@/store/unitStore";
 import { Loading } from "../loading";
+import { PackageWithRelations } from "@/store/packageStore";
+import { PackageCard } from "./PackageCard";
+import PackageDialog from "./Dialog/PackageDialog";
 
-export default function UnitSection() {
-  const { data: units, isLoading } = useQuery({
-    queryKey: ["units"],
+export default function PackageSection() {
+  const { data: packages, isLoading } = useQuery({
+    queryKey: ["packages"],
     queryFn: async () => {
-      const res = await api.get("/api/unit");
+      const res = await api.get("/api/package");
       return res.data;
     },
   });
@@ -19,22 +19,22 @@ export default function UnitSection() {
   return (
     <div className="flex flex-1 flex-col gap-2">
       <div className="flex w-full items-center justify-between p-4 rounded-md shadow border bg-background md:hover:border-foreground md:transition">
-        <h3 className="font-bold text-xl">Unit List</h3>
-        <CreateUnitDialog />
+        <h3 className="font-bold text-xl">Package List</h3>
+        <PackageDialog variant="create" />
       </div>
       <div className="flex flex-col w-full gap-2 min-h-[300px] p-4 bg-muted/80 rounded-md">
         {isLoading ? (
           <div className="flex-1 flex justify-center items-center">
             <Loading />
           </div>
-        ) : units.length > 0 ? (
-          units.map((unit: UnitWithRelations) => (
-            <CarUnitCard variant="admin" unit={unit} key={unit.id} />
+        ) : packages.length > 0 ? (
+          packages.map((item: PackageWithRelations) => (
+            <PackageCard variant="admin" key={item.id} package={item} />
           ))
         ) : (
           <div className="flex-1 flex justify-center items-center">
             <span className="text-foreground/70 text-sm font-semibold">
-              There is no unit data found
+              There is no package data found
             </span>
           </div>
         )}

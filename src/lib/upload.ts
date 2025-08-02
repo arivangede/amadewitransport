@@ -1,6 +1,7 @@
 import { supabase } from "./supabase";
 
 export async function uploadToSupabaseStorage(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   file: any,
   folder: string = "unit"
 ) {

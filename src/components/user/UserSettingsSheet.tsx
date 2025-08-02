@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import useUserStore from "@/store/userStore";
 import {
   Sheet,
   SheetTrigger,
@@ -10,7 +9,6 @@ import {
   SheetTitle,
   SheetDescription,
   SheetFooter,
-  SheetClose,
 } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { ChevronLeft, Settings } from "lucide-react";
@@ -18,34 +16,7 @@ import AccountForm from "./AccountForm";
 import PasswordForm from "./PasswordForm";
 
 export function UserSettingsSheet() {
-  const { user } = useUserStore();
   const [step, setStep] = useState<"menu" | "account" | "password">("menu");
-  const [formData, setFormData] = useState({
-    name: user?.name || "",
-    email: user?.email || "",
-    currentPassword: "",
-    newPassword: "",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (step === "account") {
-      console.log("Update account:", formData.name, formData.email);
-    } else if (step === "password") {
-      console.log(
-        "Change password:",
-        formData.currentPassword,
-        formData.newPassword
-      );
-    }
-  };
 
   return (
     <Sheet>

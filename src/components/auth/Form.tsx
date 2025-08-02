@@ -55,16 +55,19 @@ export default function AuthForm({ type }: Props) {
   const router = useRouter();
 
   const mutation = useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: async (data: any) => {
       const endpoint =
         type === "register" ? "/api/auth/register" : "/api/auth/login";
       const res = await api.post(endpoint, data);
       return res.data;
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSuccess: (res: any) => {
       toast.success(res.data.message);
       router.push("/admin/dashboard");
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (err: any) => {
       toast.error(err.response?.data?.error || "Something went wrong");
     },
