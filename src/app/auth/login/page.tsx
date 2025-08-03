@@ -1,12 +1,9 @@
-import AuthForm from "@/components/auth/Form";
+import AuthCard from "@/components/auth/AuthCard";
 
 export default function Page() {
   return (
-    <div className="w-full min-h-screen flex flex-col justify-center items-center">
-      <div className="w-full max-w-sm space-y-4">
-        Login
-        <AuthForm type="login" />
-      </div>
+    <div className="w-full min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-primary/20 via-white to-slate-100">
+      <AuthCard type="login" />
     </div>
   );
 }

@@ -21,11 +21,11 @@ export default function PromotionSection() {
   });
   return (
     <div className="flex flex-1 flex-col gap-2">
-      <div className="flex w-full items-center justify-between p-4 rounded-md shadow border bg-background">
+      <div className="flex w-full items-center justify-between p-4 rounded-md shadow bg-background">
         <h3 className="font-bold text-xl">Promotion List</h3>
         <PromotionDialog variant="create" />
       </div>
-      <div className="flex flex-col w-full gap-2 min-h-[300px] p-4 bg-muted/80 rounded-md">
+      <div className="flex flex-col w-full gap-2 min-h-[300px] p-2 bg-white/60 backdrop-blur-sm rounded-xl">
         {isLoading || isRefetching ? (
           <div className="flex-1 flex justify-center items-center">
             <Loading />

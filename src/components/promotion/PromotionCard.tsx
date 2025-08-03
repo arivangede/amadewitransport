@@ -1,6 +1,6 @@
 "use client";
 
-import { Percent, DollarSign, Tag } from "lucide-react";
+import { Tag } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DISCOUNT_TYPE } from "@prisma/client";

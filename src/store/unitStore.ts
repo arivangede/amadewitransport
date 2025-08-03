@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 export type UnitWithRelations = Unit & {
   images: UnitImage[] | null;
-  discounts: (UnitDiscount & Discount)[] | null;
+  discounts: (UnitDiscount & { discount: Discount })[] | null;
 };
 
 interface UnitStore {

@@ -60,7 +60,7 @@ export default function AuthForm({ type }: Props) {
       const endpoint =
         type === "register" ? "/api/auth/register" : "/api/auth/login";
       const res = await api.post(endpoint, data);
-      return res.data;
+      return res;
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSuccess: (res: any) => {
@@ -144,9 +144,7 @@ export default function AuthForm({ type }: Props) {
             ? "Already have an account?"
             : "Don't have account yet?"}
           <Link
-            href={
-              type === "register" ? "/admin/auth/login" : "/admin/auth/register"
-            }
+            href={type === "register" ? "/auth/login" : "/auth/register"}
             className="underline font-bold"
           >
             {type === "register" ? "Login" : "Register"}

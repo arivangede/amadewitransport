@@ -38,7 +38,7 @@ export default function AdminNavbar() {
     <div className="flex justify-between items-center text-foreground p-4 w-full">
       <div className="flex flex-col items-center md:flex-row md:gap-2">
         <span className="text-2xl font-bold">
-          <span className="text-primary">AD</span>TS
+          AD<span className="text-primary">TS</span>
         </span>
 
         <span className="font-semibold text-sm hidden md:inline-block md:text-md">

@@ -11,7 +11,7 @@ import {
   SheetFooter,
 } from "../ui/sheet";
 import { Button } from "../ui/button";
-import { ChevronLeft, Settings } from "lucide-react";
+import { ChevronLeft, User2 } from "lucide-react";
 import AccountForm from "./AccountForm";
 import PasswordForm from "./PasswordForm";
 import LogoutDialog from "../auth/LogoutDialog";
@@ -23,7 +23,7 @@ export function UserSettingsSheet() {
     <Sheet>
       <SheetTrigger asChild>
         <button className="h-12 w-12 flex justify-center items-center bg-primary p-2 rounded-md cursor-pointer hover:bg-primary/80 transition">
-          <Settings />
+          <User2 />
         </button>
       </SheetTrigger>
 
