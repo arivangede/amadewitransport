@@ -75,7 +75,7 @@ model Discount {
   description String?
   discount_type DISCOUNT_TYPE
   discount_value Float
-  validity Json?
+  validity Json
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 

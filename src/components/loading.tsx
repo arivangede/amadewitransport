@@ -1,12 +1,6 @@
 import React from "react";
 
-// Catatan: CSS tidak bisa langsung ditulis di file .tsx seperti di HTML.
-// Solusi: gunakan style JSX, atau lebih baik, gunakan file CSS terpisah dan import ke sini.
-// Berikut contoh dengan style JSX:
-
 export function Loading({ color = "#000" }: { color?: string }) {
-  // Default warna hitam jika color tidak diberikan
-  // color bisa berupa hex, rgb, atau nama warna CSS
   return (
     <>
       <div className="loader flex flex-row gap-[5px]">

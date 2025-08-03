@@ -1,5 +1,6 @@
 import AdminNavbar from "@/components/admin-navbar";
 import PackageSection from "@/components/package/PackageSection";
+import PromotionSection from "@/components/promotion/PromotionSection";
 import UnitSection from "@/components/unit/UnitSection";
 
 export default function Page() {
@@ -15,7 +16,9 @@ export default function Page() {
           <section className="bg-white rounded-xl flex flex-col min-h-[300px]">
             <PackageSection />
           </section>
-          <section className="bg-white rounded-xl flex flex-col min-h-[300px] "></section>
+          <section className="bg-white rounded-xl flex flex-col min-h-[300px] ">
+            <PromotionSection />
+          </section>
         </div>
       </main>
     </div>

@@ -8,7 +8,11 @@ import { UnitWithRelations } from "@/store/unitStore";
 import { Loading } from "../loading";
 
 export default function UnitSection() {
-  const { data: units, isLoading } = useQuery({
+  const {
+    data: units,
+    isLoading,
+    isRefetching,
+  } = useQuery({
     queryKey: ["units"],
     queryFn: async () => {
       const res = await api.get("/api/unit");
@@ -18,12 +22,12 @@ export default function UnitSection() {
 
   return (
     <div className="flex flex-1 flex-col gap-2">
-      <div className="flex w-full items-center justify-between p-4 rounded-md shadow border bg-background md:hover:border-foreground md:transition">
+      <div className="flex w-full items-center justify-between p-4 rounded-md shadow border bg-background">
         <h3 className="font-bold text-xl">Unit List</h3>
         <CreateUnitDialog />
       </div>
       <div className="flex flex-col w-full gap-2 min-h-[300px] p-4 bg-muted/80 rounded-md">
-        {isLoading ? (
+        {isLoading || isRefetching ? (
           <div className="flex-1 flex justify-center items-center">
             <Loading />
           </div>

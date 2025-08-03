@@ -4,7 +4,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   const units = await prisma.unit.findMany({
-    include: { images: true, discounts: true },
+    include: {
+      images: true,
+      discounts: {
+        include: {
+          discount: true,
+        },
+      },
+    },
     orderBy: { created_at: "asc" },
   });
 

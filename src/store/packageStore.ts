@@ -7,5 +7,5 @@ import {
 
 export type PackageWithRelations = Package & {
   images: PackageImage[] | null;
-  discounts: (PackageDiscount & { discount: Discount }[]) | null;
+  discounts: (PackageDiscount & Discount)[] | null;
 };

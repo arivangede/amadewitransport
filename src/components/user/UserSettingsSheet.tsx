@@ -14,6 +14,7 @@ import { Button } from "../ui/button";
 import { ChevronLeft, Settings } from "lucide-react";
 import AccountForm from "./AccountForm";
 import PasswordForm from "./PasswordForm";
+import LogoutDialog from "../auth/LogoutDialog";
 
 export function UserSettingsSheet() {
   const [step, setStep] = useState<"menu" | "account" | "password">("menu");
@@ -74,8 +75,9 @@ export function UserSettingsSheet() {
             <PasswordForm />
           </div>
         )}
-        {step !== "menu" && (
-          <SheetFooter>
+
+        <SheetFooter>
+          {step !== "menu" && (
             <Button
               type="button"
               variant="outline"
@@ -83,8 +85,9 @@ export function UserSettingsSheet() {
             >
               Back
             </Button>
-          </SheetFooter>
-        )}
+          )}
+          {step === "menu" && <LogoutDialog />}
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

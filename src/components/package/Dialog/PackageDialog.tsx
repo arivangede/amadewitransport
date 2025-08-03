@@ -210,10 +210,15 @@ export default function PackageDialog({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <DialogHeader>
-              <DialogTitle>Register New Package +</DialogTitle>
+              <DialogTitle>
+                {variant === "create"
+                  ? "Register New Package +"
+                  : "Edit Package"}
+              </DialogTitle>
               <DialogDescription>
-                Please fill out the form below to add a new package to the
-                system. Make sure all information is correct before saving.
+                {variant === "create"
+                  ? "Please fill out the form below to add a new package to thesystem. Make sure all information is correct before saving."
+                  : "Please update the information below to edit the selected package. Ensure all changes are accurate before saving."}
               </DialogDescription>
             </DialogHeader>
 
@@ -455,7 +460,7 @@ export default function PackageDialog({
                 ) : variant === "create" ? (
                   "Register New Package"
                 ) : (
-                  "Save Changes"
+                  "Update Package"
                 )}
               </Button>
             </DialogFooter>

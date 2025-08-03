@@ -7,7 +7,11 @@ export async function GET() {
     const packages = await prisma.package.findMany({
       include: {
         images: true,
-        discounts: true,
+        discounts: {
+          include: {
+            discount: true,
+          },
+        },
       },
     });
 
@@ -62,7 +66,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Failed add new package error: ", error);
     return NextResponse.json(
-      { error: "Failed add new package" },
+      { error: "Failed to add new package" },
       { status: 500 }
     );
   }
