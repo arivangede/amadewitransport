@@ -129,7 +129,7 @@ export default function Component() {
                 <WhatsappButton item="Car" size={"lg"} />
                 <a
                   href="#packages"
-                  className="flex justify-center items-center transition border border-white text-white rounded-md hover:bg-white hover:text-yellow-600 bg-transparent px-4"
+                  className="flex justify-center items-center transition border border-white text-white rounded-md hover:bg-white hover:text-yellow-600 bg-transparent px-4 py-2"
                 >
                   View Tour Packages
                 </a>
