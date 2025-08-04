@@ -137,7 +137,7 @@ export default function Component() {
             </div>
             <div className="relative hidden h-[500px] w-[500px] md:block">
               <Image
-                src="https://svvbafvdcppzxndukdlw.supabase.co/storage/v1/object/public/landing//wellcome-picture.png"
+                src="https://svvbafvdcppzxndukdlw.supabase.co/storage/v1/object/public/landing//wellcome-pict.jpeg"
                 alt="Happy Service"
                 fill
                 priority
