@@ -17,26 +17,27 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Amadewi Trans | Bali Car Rental & Private Tour with Driver",
   description:
-    "Amadewi Trans is your trusted partner for Bali private tours, car rental with driver, and airport transfers. Explore Bali safely and comfortably with our professional drivers.",
+    "Amadewi Trans provides trusted Bali car rental with driver, private tours, and airport transfers. Discover Bali in comfort with our reliable local transport service.",
   keywords: [
     "Bali car rental",
     "Bali private tour",
     "car rental with driver Bali",
     "airport transfer Bali",
-    "Bali tour service",
+    "Bali transport",
     "Amadewi Trans",
-    "Bali transport service",
     "Bali travel agency",
+    "private car hire Bali",
+    "driver service Bali",
   ],
   openGraph: {
     title: "Amadewi Trans | Bali Car Rental & Private Tour with Driver",
     description:
       "Reliable and affordable Bali car rental and private tour service. Explore Bali with Amadewi Trans and our experienced local drivers.",
-    url: "https://amadewitrans.com",
+    url: process.env.NEXT_PUBLIC_API_BASE_URL,
     siteName: "Amadewi Trans",
     images: [
       {
-        url: "https://svvbafvdcppzxndukdlw.supabase.co/storage/v1/object/public/landing//og-image.png", // Ganti dengan gambar sebenarnya
+        url: "https://svvbafvdcppzxndukdlw.supabase.co/storage/v1/object/public/landing/og-image.png",
         width: 1200,
         height: 630,
         alt: "Amadewi Trans Bali Transport Service",
@@ -51,11 +52,11 @@ export const metadata: Metadata = {
     description:
       "Book your Bali transport with Amadewi Trans — Private tours, airport transfers, and car rentals with experienced local drivers.",
     images: [
-      "https://svvbafvdcppzxndukdlw.supabase.co/storage/v1/object/public/landing//og-image.png",
-    ], // Ganti dengan gambar sebenarnya
+      "https://svvbafvdcppzxndukdlw.supabase.co/storage/v1/object/public/landing/og-image.png",
+    ],
   },
   alternates: {
-    canonical: "https://amadewitrans.com",
+    canonical: process.env.NEXT_PUBLIC_API_BASE_URL,
   },
 };
 
