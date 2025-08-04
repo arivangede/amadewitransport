@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import {
   Package2,
-  Star,
   CheckCircle,
   Tag,
   Percent,
@@ -95,8 +94,7 @@ export function PackageCard({
               <Image
                 src={images[0]?.path || "https://placehold.co/150x150.png"}
                 alt={pkg.name}
-                height={150}
-                width={250}
+                fill
                 priority
                 className="object-cover"
               />
@@ -160,11 +158,6 @@ export function PackageCard({
       {hasDiscount && (
         <div className="absolute top-0 right-0 z-10">
           <div className="bg-gradient-to-l from-red-500 to-red-600 text-white px-3 py-1 text-sm font-bold flex items-center gap-1">
-            {activeDiscount?.discount_type === "PERCENTAGE" ? (
-              <Percent className="h-3 w-3" />
-            ) : (
-              <DollarSign className="h-3 w-3" />
-            )}
             {activeDiscount?.discount_type === "PERCENTAGE"
               ? `${activeDiscount.discount_value}% OFF`
               : `${formatPrice(activeDiscount?.discount_value || 0)} OFF`}
@@ -181,27 +174,22 @@ export function PackageCard({
               {pkg.name}
             </CardTitle>
             <Badge variant="outline" className="mt-1 w-fit">
-              Paket Lengkap
+              Full Package
             </Badge>
-          </div>
-          <div className="flex items-center gap-1">
-            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            <span className="text-sm font-medium">4.9</span>
           </div>
         </div>
       </CardHeader>
 
       <CardContent className="space-y-4">
         {images.length > 0 && (
-          <div className="relative aspect-video rounded-lg overflow-hidden group">
+          <div className="relative h-[300px] w-full rounded-lg overflow-hidden group">
             <Image
               src={
                 images[currentImageIndex]?.path ||
                 "https://placehold.co/150x150.png"
               }
               alt={pkg.name}
-              height={400}
-              width={600}
+              fill
               priority
               className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
@@ -250,7 +238,7 @@ export function PackageCard({
             )}
 
             <div className="absolute top-2 right-2 bg-primary text-white px-2 py-1 rounded text-xs font-medium">
-              POPULER
+              POPULAR
             </div>
           </div>
         )}
@@ -262,7 +250,7 @@ export function PackageCard({
         <div>
           <p className="text-sm font-medium mb-3 flex items-center gap-2">
             <CheckCircle className="h-4 w-4 text-green-500" />
-            Semua termasuk:
+            All Inclusions:
           </p>
           <div className="space-y-2">
             {inclusions.slice(0, 5).map((inclusion, index) => (
@@ -273,7 +261,7 @@ export function PackageCard({
             ))}
             {pkg.inclusions.length > 5 && (
               <p className="text-xs text-muted-foreground ml-5">
-                +{pkg.inclusions.length - 5} fasilitas lainnya
+                +{pkg.inclusions.length - 5} more facilities
               </p>
             )}
           </div>
@@ -294,9 +282,9 @@ export function PackageCard({
               </p>
             )}
             <div className="flex items-center justify-between">
-              <span className="text-sm text-red-600">Penawaran terbatas</span>
+              <span className="text-sm text-red-600">Limited offer</span>
               <Badge variant="destructive" className="text-xs">
-                Hemat {formatPrice(pkg.base_rate - discountedPrice)}
+                Save {formatPrice(pkg.base_rate - discountedPrice)}
               </Badge>
             </div>
           </div>
@@ -318,20 +306,14 @@ export function PackageCard({
             ) : (
               <p className="text-2xl font-bold">{formatPrice(pkg.base_rate)}</p>
             )}
-            <p className="text-xs text-muted-foreground">paket lengkap</p>
-          </div>
-          <div className="text-right">
-            <div className="flex items-center gap-1 text-xs text-muted-foreground">
-              <Clock className="h-3 w-3" />
-              <span>Waktu terbatas</span>
-            </div>
+            <p className="text-xs text-muted-foreground">full package</p>
           </div>
         </div>
       </CardContent>
 
       <CardFooter>
         <Button className="w-full" size="lg" onClick={() => onBook?.(pkg)}>
-          {hasDiscount ? "Pesan Paket dengan Diskon" : "Pesan Paket Sekarang"}
+          {hasDiscount ? "Book Package with Discount" : "Book Package Now"}
         </Button>
       </CardFooter>
     </Card>

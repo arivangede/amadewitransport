@@ -13,6 +13,9 @@ export async function GET() {
           },
         },
       },
+      orderBy: {
+        created_at: "asc",
+      },
     });
 
     return NextResponse.json(packages);

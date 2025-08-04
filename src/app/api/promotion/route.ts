@@ -8,6 +8,9 @@ export async function GET() {
         unit_discounts: true,
         package_discounts: true,
       },
+      orderBy: {
+        created_at: "asc",
+      },
     });
 
     return NextResponse.json(discounts);

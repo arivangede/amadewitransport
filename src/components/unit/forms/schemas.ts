@@ -7,7 +7,7 @@ export const UnitSchema = z.object({
     .min(1900, "Year must be 1900 or later")
     .max(new Date().getFullYear() + 1, "Year cannot be in the future")
     .nonnegative(),
-  capacity: z.number().min(1).max(10),
+  capacity: z.number().min(1),
   inclusions: z
     .array(
       z.object({

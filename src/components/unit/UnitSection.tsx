@@ -26,7 +26,7 @@ export default function UnitSection() {
         <h3 className="font-bold text-xl">Unit List</h3>
         <CreateUnitDialog />
       </div>
-      <div className="flex flex-col w-full gap-2 min-h-[300px] p-2 bg-white/60 backdrop-blur-sm rounded-xl">
+      <div className="flex flex-col w-full gap-2 min-h-[300px] max-h-[600px] overflow-y-auto p-2 bg-white/60 backdrop-blur-sm rounded-xl">
         {isLoading || isRefetching ? (
           <div className="flex-1 flex justify-center items-center">
             <Loading />

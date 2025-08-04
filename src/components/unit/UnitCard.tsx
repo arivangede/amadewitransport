@@ -16,9 +16,7 @@ import {
   CheckCircle,
   ChevronLeft,
   ChevronRight,
-  DollarSign,
   Percent,
-  Star,
   Tag,
   Users,
 } from "lucide-react";
@@ -91,8 +89,7 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
                 src={images[0]?.path || "https://placehold.co/150x150.png"}
                 alt={unit.name}
                 priority
-                height={150}
-                width={250}
+                fill
                 className="object-contain"
               />
               {images.length > 1 && (
@@ -103,23 +100,19 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
             </div>
 
             {/* Main Info */}
-            <div className="flex-1 min-w-0">
-              <div className="flex flex-col justify-between">
-                <div>
-                  <h3 className="font-semibold text-lg truncate">
-                    {unit.name}
-                  </h3>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      {unit.year}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Users className="h-3 w-3" />
-                      {unit.capacity} seats
-                    </span>
-                    <span>ID: {unit.id}</span>
-                  </div>
+            <div className="flex-1 min-w-0 w-full">
+              <div className="flex flex-col justify-between w-full">
+                <h3 className="font-semibold text-lg truncate">{unit.name}</h3>
+                <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
+                  <span className="flex items-center gap-1">
+                    <Calendar className="h-3 w-3" />
+                    {unit.year}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Users className="h-3 w-3" />
+                    {unit.capacity} seats
+                  </span>
+                  <span>ID: {unit.id}</span>
                 </div>
 
                 {/* Price & Discount */}
@@ -156,11 +149,6 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
       {hasDiscount && (
         <div className="absolute top-0 right-0 z-10">
           <div className="bg-gradient-to-l from-red-500 to-red-600 text-white px-3 py-1 text-sm font-bold flex items-center gap-1">
-            {activeDiscount?.discount_type === "PERCENTAGE" ? (
-              <Percent className="h-3 w-3" />
-            ) : (
-              <DollarSign className="h-3 w-3" />
-            )}
             {activeDiscount?.discount_type === "PERCENTAGE"
               ? `${activeDiscount.discount_value}% OFF`
               : `${formatPrice(activeDiscount?.discount_value || 0)} OFF`}
@@ -172,16 +160,12 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <CardTitle className="text-xl">{unit.name}</CardTitle>
-          <div className="flex items-center gap-1">
-            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            <span className="text-sm font-medium">4.8</span>
-          </div>
         </div>
       </CardHeader>
 
       <CardContent className="space-y-4">
         {images.length > 0 && (
-          <div className="relative aspect-video rounded-lg overflow-hidden group">
+          <div className="relative w-full aspect-video rounded-lg overflow-hidden group">
             <Image
               src={
                 images[currentImageIndex]?.path ||
@@ -189,9 +173,8 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
               }
               alt={unit.name}
               priority
-              height={400}
-              width={600}
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              fill
+              className="object-contain transition-transform duration-300 group-hover:scale-105"
             />
 
             {/* Image Navigation */}
@@ -303,14 +286,14 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
             ) : (
               <p className="text-lg font-bold">{formatPrice(unit.base_rate)}</p>
             )}
-            <p className="text-xs text-muted-foreground">per hari</p>
+            <p className="text-xs text-muted-foreground">/ 12hours</p>
           </div>
         </div>
       </CardContent>
 
       <CardFooter>
         <Button className="w-full" onClick={() => onBook?.(unit)}>
-          {hasDiscount ? "Pesan dengan Diskon" : "Pesan Sekarang"}
+          {hasDiscount ? "Book with Discount" : "Book Now"}
         </Button>
       </CardFooter>
     </Card>

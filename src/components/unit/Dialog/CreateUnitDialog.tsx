@@ -25,7 +25,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
@@ -46,6 +46,7 @@ const defaultValues: Partial<UnitFormData> = {
 };
 
 export default function CreateUnitDialog() {
+  const queryClient = useQueryClient();
   const form = useForm<UnitFormData>({
     resolver: zodResolver(UnitSchema),
     defaultValues,
@@ -69,6 +70,7 @@ export default function CreateUnitDialog() {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSuccess: (res: any) => {
+      queryClient.invalidateQueries({ queryKey: ["units"] });
       toast.success(res.data.message);
       form.reset();
     },

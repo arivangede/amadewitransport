@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 export function Loading({ color = "#000" }: { color?: string }) {
