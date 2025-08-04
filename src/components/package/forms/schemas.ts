@@ -1,3 +1,4 @@
+"use client";
 import z from "zod";
 
 export const PackageSchema = z.object({
