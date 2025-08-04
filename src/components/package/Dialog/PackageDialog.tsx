@@ -202,6 +202,7 @@ export default function PackageDialog({
         <Button
           variant={variant === "create" ? "default" : "outline"}
           className="font-semibold"
+          size={variant === "create" ? "default" : "sm"}
         >
           {variant === "create" ? "Add +" : <Edit className="h-4 w-4" />}
         </Button>

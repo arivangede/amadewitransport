@@ -16,21 +16,20 @@ import {
   CheckCircle,
   ChevronLeft,
   ChevronRight,
-  Percent,
   Tag,
   Users,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
+import WhatsappButton from "../WhatsappButton";
 
 interface CarUnitCardProps {
   unit: UnitWithRelations;
   variant: "admin" | "guest";
-  onBook?: (unit: UnitWithRelations) => void;
 }
 
-export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
+export function CarUnitCard({ unit, variant }: CarUnitCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const formatPrice = (price: number) => {
@@ -292,9 +291,7 @@ export function CarUnitCard({ unit, variant, onBook }: CarUnitCardProps) {
       </CardContent>
 
       <CardFooter>
-        <Button className="w-full" onClick={() => onBook?.(unit)}>
-          {hasDiscount ? "Book with Discount" : "Book Now"}
-        </Button>
+        <WhatsappButton item={unit.name} discount={activeDiscount?.name} />
       </CardFooter>
     </Card>
   );

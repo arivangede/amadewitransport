@@ -6,11 +6,8 @@ import {
   Package2,
   CheckCircle,
   Tag,
-  Percent,
-  DollarSign,
   ChevronLeft,
   ChevronRight,
-  Clock,
 } from "lucide-react";
 import {
   Card,

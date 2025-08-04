@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { Clock, MapPin, Phone, Mail, Star, Users, Fuel } from "lucide-react";
 import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -16,6 +15,7 @@ import { PackageWithRelations } from "@/store/packageStore";
 import { CarUnitCard } from "@/components/unit/UnitCard";
 import { PackageCard } from "@/components/package/PackageCard";
 import { Loading } from "@/components/loading";
+import WhatsappButton from "@/components/WhatsappButton";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -97,9 +97,7 @@ export default function Component() {
                 Contact
               </a>
             </nav>
-            <Button className="bg-yellow-500 hover:bg-yellow-600">
-              Book Now
-            </Button>
+            <WhatsappButton size={"lg"} />
           </div>
         </div>
       </header>
@@ -128,19 +126,13 @@ export default function Component() {
                 adventure.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  size="lg"
-                  className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold"
-                >
-                  Book Car Rental
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-yellow-600 bg-transparent"
+                <WhatsappButton item="Car" size={"lg"} />
+                <a
+                  href="#packages"
+                  className="flex justify-center items-center transition border border-white text-white rounded-md hover:bg-white hover:text-yellow-600 bg-transparent px-4"
                 >
                   View Tour Packages
-                </Button>
+                </a>
               </div>
             </div>
             <div className="relative hidden h-[500px] w-[500px] md:block">
@@ -373,11 +365,11 @@ export default function Component() {
             </div>
             <div className="relative">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d986.1965664816537!2d115.25982926958571!3d-8.616507673496006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwMzYnNTkuNCJTIDExNcKwMTUnMzcuNyJF!5e0!3m2!1sid!2sid!4v1754241025660!5m2!1sid!2sid"
+                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2143.6411717448323!2d115.26041000078492!3d-8.616616514859453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwMzYnNTkuNSJTIDExNcKwMTUnMzcuNiJF!5e0!3m2!1sid!2sid!4v1754275537625!5m2!1sid!2sid"
                 width="500"
                 height="500"
-                className="border border-primary rounded-xl shadow-xl"
-                loading="lazy"
+                className="border-2 border-primary rounded-xl shadow-xl"
+                loading="eager"
               ></iframe>
             </div>
           </div>
