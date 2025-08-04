@@ -129,7 +129,7 @@ export default function Component() {
                 <WhatsappButton item="Car" size={"lg"} />
                 <a
                   href="#packages"
-                  className="flex justify-center items-center transition border border-white text-white rounded-md hover:bg-white hover:text-yellow-600 bg-transparent px-4 py-2"
+                  className="h-10 flex justify-center items-center transition border border-white text-white rounded-md hover:bg-white hover:text-yellow-600 bg-transparent px-6 py-2"
                 >
                   View Tour Packages
                 </a>
@@ -363,12 +363,10 @@ export default function Component() {
                 </div>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative h-[500px] w-full lg:max-w-[500px]">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2143.6411717448323!2d115.26041000078492!3d-8.616616514859453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwMzYnNTkuNSJTIDExNcKwMTUnMzcuNiJF!5e0!3m2!1sid!2sid!4v1754275537625!5m2!1sid!2sid"
-                width="500"
-                height="500"
-                className="border-2 border-primary rounded-xl shadow-xl"
+                className="border-2 border-primary rounded-xl shadow-xl w-full h-full"
                 loading="eager"
               ></iframe>
             </div>
@@ -385,7 +383,7 @@ export default function Component() {
               Contact us today to book your perfect Bali adventure
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 text-center">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
             <div className="bg-gray-600 bg-opacity-10 rounded-lg p-8">
               <Phone className="h-12 w-12 mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-2">Call Us</h3>
@@ -404,7 +402,7 @@ export default function Component() {
                 {process.env.NEXT_PUBLIC_CONTACT_EMAIL}
               </p>
             </div>
-            <div className="bg-gray-600 bg-opacity-10 rounded-lg p-8">
+            <div className="bg-gray-600 bg-opacity-10 rounded-lg p-8 md:col-span-2 lg:col-span-1">
               <MapPin className="h-12 w-12 mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-2">Visit Us</h3>
               <p className="text-yellow-100 mb-4">
