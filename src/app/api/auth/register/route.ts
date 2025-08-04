@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
 
     const res = NextResponse.json({
       message: "Register Success",
+      user,
     });
 
     res.cookies.set("token", token, {

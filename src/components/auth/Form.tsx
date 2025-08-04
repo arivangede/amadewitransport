@@ -14,7 +14,7 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Loading } from "../loading";
 import api from "@/lib/axios";
@@ -43,6 +43,7 @@ const defaultValueMap = {
 } as const;
 
 export default function AuthForm({ type }: Props) {
+  const queryClient = useQueryClient();
   const schema = schemas[type];
   type FormData = z.infer<typeof schema>;
 
@@ -64,6 +65,7 @@ export default function AuthForm({ type }: Props) {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSuccess: (res: any) => {
+      queryClient.invalidateQueries({ queryKey: ["userme"] });
       toast.success(res.data.message);
       router.push("/admin/dashboard");
     },

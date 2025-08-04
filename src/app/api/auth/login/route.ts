@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
   const token = await signToken({ id: user.id, email: user.email });
 
-  const res = NextResponse.json({ message: "Login success" });
+  const res = NextResponse.json({ message: "Login success", user });
   res.cookies.set("token", token, {
     httpOnly: true,
     maxAge: 60 * 60 * 24 * 7,

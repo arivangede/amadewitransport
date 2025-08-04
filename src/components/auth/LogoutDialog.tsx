@@ -16,8 +16,10 @@ import {
 } from "../ui/dialog";
 import { LogOut } from "lucide-react";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import useUserStore from "@/store/userStore";
 
 export default function LogoutDialog() {
+  const { clearUser } = useUserStore();
   const router = useRouter();
   const mutation = useMutation({
     mutationFn: async () => {
@@ -25,6 +27,7 @@ export default function LogoutDialog() {
       return res.data;
     },
     onSuccess: (res) => {
+      clearUser();
       toast.info(res.message);
       router.push("/auth/login");
     },

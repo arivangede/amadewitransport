@@ -18,7 +18,11 @@ const useUserStore = create<UserStore>()(
     (set) => ({
       user: null,
       setUser: (user) => set({ user }),
-      clearUser: () => set({ user: null }),
+      clearUser: () =>
+        set((state) => {
+          // Jika ada properti lain di store di masa depan, pastikan hanya user yang direset
+          return { ...state, user: null };
+        }),
     }),
     {
       name: "user-storage",

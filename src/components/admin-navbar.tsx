@@ -58,7 +58,7 @@ export default function AdminNavbar() {
           <UserSettingsSheet />
         </div>
       ) : (
-        <div>no user data</div>
+        ""
       )}
     </div>
   );
