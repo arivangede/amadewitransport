@@ -8,6 +8,7 @@ import {
   Tag,
   ChevronLeft,
   ChevronRight,
+  Component,
 } from "lucide-react";
 import {
   Card,
@@ -246,7 +247,7 @@ export function PackageCard({
 
         <div>
           <p className="text-sm font-medium mb-3 flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-green-500" />
+            <Component className="h-4 w-4 text-primary" />
             All Inclusions:
           </p>
           <div className="space-y-2">
