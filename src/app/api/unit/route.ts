@@ -3,19 +3,37 @@ import { uploadToSupabaseStorage } from "@/lib/upload";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
-  const units = await prisma.unit.findMany({
-    include: {
-      images: true,
-      discounts: {
-        include: {
-          discount: true,
+  try {
+    const now = new Date();
+
+    const units = await prisma.unit.findMany({
+      include: {
+        images: true,
+        discounts: {
+          where: {
+            discount: {
+              validity: {
+                path: ["end_date"],
+                gte: now.toISOString(),
+              },
+            },
+          },
+          include: {
+            discount: true,
+          },
         },
       },
-    },
-    orderBy: { created_at: "asc" },
-  });
+      orderBy: { created_at: "asc" },
+    });
 
-  return NextResponse.json(units);
+    return NextResponse.json(units);
+  } catch (error) {
+    console.error("Error Get Unit:", error);
+    return NextResponse.json(
+      { error: "Failed get unit data" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(req: NextRequest) {

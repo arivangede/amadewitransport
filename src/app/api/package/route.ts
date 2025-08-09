@@ -4,10 +4,20 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
+    const now = new Date();
+
     const packages = await prisma.package.findMany({
       include: {
         images: true,
         discounts: {
+          where: {
+            discount: {
+              validity: {
+                path: ["end_date"],
+                gte: now.toISOString(),
+              },
+            },
+          },
           include: {
             discount: true,
           },
