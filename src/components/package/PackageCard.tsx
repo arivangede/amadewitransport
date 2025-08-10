@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { PackageWithRelations } from "@/store/packageStore";
 import PackageDialog from "./Dialog/PackageDialog";
+import WhatsappButton from "../WhatsappButton";
 
 interface PackageCardProps {
   package: PackageWithRelations;
@@ -310,9 +311,7 @@ export function PackageCard({
       </CardContent>
 
       <CardFooter>
-        <Button className="w-full" size="lg" onClick={() => onBook?.(pkg)}>
-          {hasDiscount ? "Book Package with Discount" : "Book Package Now"}
-        </Button>
+        <WhatsappButton item={pkg.name} discount={activeDiscount?.name} />
       </CardFooter>
     </Card>
   );

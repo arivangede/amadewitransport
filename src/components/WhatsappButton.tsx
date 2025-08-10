@@ -20,10 +20,12 @@ export default function WhatsappButton({
     // Dynamic message, add discount if available
     let message = `Hello Amadewi Trans, I would like to book:\n• ${
       item ? item : "-"
-    }\nFor date: \n`;
+    }`;
     if (discount) {
-      message += `With discount: ${discount}\n`;
+      message += `\nWith discount: ${discount}`;
     }
+
+    message += "\nFor date:";
     // Encode message for URL
     const encodedMessage = encodeURIComponent(message);
     // Create WhatsApp link
