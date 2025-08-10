@@ -30,11 +30,7 @@ interface PackageCardProps {
   onBook?: (pkg: PackageWithRelations) => void;
 }
 
-export function PackageCard({
-  package: pkg,
-  variant,
-  onBook,
-}: PackageCardProps) {
+export function PackageCard({ package: pkg, variant }: PackageCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const formatPrice = (price: number) => {

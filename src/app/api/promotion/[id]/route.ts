@@ -116,14 +116,14 @@ export async function PUT(
     });
 
     return NextResponse.json({
-      message: "Discount updated successfully",
+      message: "Promotion updated successfully",
       discount: updatedDiscount,
     });
   } catch (error) {
-    console.error("Error when updating discount:", error);
+    console.error("Error when updating promotion:", error);
     return NextResponse.json(
       {
-        error: "Failed to update discount",
+        error: "Failed to update promotion",
         detail: (error as Error).message,
       },
       { status: 500 }
@@ -173,13 +173,13 @@ export async function DELETE(
     ]);
 
     return NextResponse.json({
-      message: "Discount deleted successfully",
+      message: "Promotion deleted successfully",
     });
   } catch (error) {
-    console.error("Error when deleting discount:", error);
+    console.error("Error when deleting promotion:", error);
     return NextResponse.json(
       {
-        error: "Failed to delete discount",
+        error: "Failed to delete promotion",
         detail: (error as Error).message,
       },
       { status: 500 }

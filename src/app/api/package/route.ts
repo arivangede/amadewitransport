@@ -12,10 +12,20 @@ export async function GET() {
         discounts: {
           where: {
             discount: {
-              validity: {
-                path: ["end_date"],
-                gte: now.toISOString(),
-              },
+              AND: [
+                {
+                  validity: {
+                    path: ["start_date"],
+                    lte: now.toISOString(),
+                  },
+                },
+                {
+                  validity: {
+                    path: ["end_date"],
+                    gte: now.toISOString(),
+                  },
+                },
+              ],
             },
           },
           include: {
