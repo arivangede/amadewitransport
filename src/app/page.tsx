@@ -107,12 +107,12 @@ export default function Component() {
         className="relative text-white"
         style={{
           backgroundImage:
-            "url('https://svvbafvdcppzxndukdlw.supabase.co/storage/v1/object/public/landing//pexels-elina-sazonova-1850547.jpg')",
+            "url('https://svvbafvdcppzxndukdlw.supabase.co/storage/v1/object/public/landing/hero.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "top-left",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/50 to-cyan-800/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-900/30 to-amber-600/40" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="flex items-center justify-between">
             <div className="max-w-[600px]">
@@ -135,9 +135,9 @@ export default function Component() {
                 </a>
               </div>
             </div>
-            <div className="relative hidden h-[500px] w-[500px] md:block">
+            <div className="relative hidden h-[500px] w-[500px] lg:block">
               <Image
-                src="https://svvbafvdcppzxndukdlw.supabase.co/storage/v1/object/public/landing//wellcome-pict.jpeg"
+                src="https://svvbafvdcppzxndukdlw.supabase.co/storage/v1/object/public/landing/WhatsApp%20Image%202025-08-14%20at%2010.15.31.jpeg"
                 alt="Happy Service"
                 fill
                 priority
@@ -365,7 +365,7 @@ export default function Component() {
             </div>
             <div className="relative h-[500px] w-full lg:max-w-[500px]">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2143.6411717448323!2d115.26041000078492!3d-8.616616514859453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwMzYnNTkuNSJTIDExNcKwMTUnMzcuNiJF!5e0!3m2!1sid!2sid!4v1754275537625!5m2!1sid!2sid"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.783878313852!2d115.26090306662701!3d-8.61673652684679!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd23f8bc08d31e3%3A0x97d9ec5d0d5a3dd5!2sCV%20Amadewi%20Transport%20Service!5e0!3m2!1sid!2sid!4v1755139562912!5m2!1sid!2sid"
                 className="border-2 border-primary rounded-xl shadow-xl w-full h-full"
                 loading="eager"
               ></iframe>
