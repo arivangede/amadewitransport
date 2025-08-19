@@ -107,7 +107,7 @@ export async function GET(req: NextRequest) {
       }
 
       // Fill in monthly visitor counts
-      visitors.forEach((v) => {
+      visitors.forEach((v: { created_at: Date }) => {
         const dateKey = v.created_at.toISOString().slice(0, 7);
         if (dateKey in graphMap) {
           graphMap[dateKey] = (graphMap[dateKey] || 0) + 1;
@@ -121,7 +121,7 @@ export async function GET(req: NextRequest) {
         graphMap[dateKey] = 0;
       }
 
-      visitors.forEach((v) => {
+      visitors.forEach((v: { created_at: Date }) => {
         const dateKey = v.created_at.toISOString().slice(0, 10);
         if (dateKey in graphMap) {
           graphMap[dateKey] = (graphMap[dateKey] || 0) + 1;
@@ -140,7 +140,7 @@ export async function GET(req: NextRequest) {
     const deviceSummaryMap: Record<string, number> = {};
     const regionSummaryMap: Record<string, number> = {};
 
-    visitors.forEach((v) => {
+    visitors.forEach((v: { created_at: Date; device: string; region: string; country: string }) => {
       // Device
       if (v.device) {
         deviceSummaryMap[v.device] = (deviceSummaryMap[v.device] || 0) + 1;
@@ -171,7 +171,7 @@ export async function GET(req: NextRequest) {
     // We assume "uuid" is used to identify unique visitors
     // A returning visitor is a uuid that appears more than once in the selected range
     const uuidCountMap: Record<string, number> = {};
-    visitors.forEach((v) => {
+    visitors.forEach((v: { uuid: string }) => {
       if (v.uuid) {
         uuidCountMap[v.uuid] = (uuidCountMap[v.uuid] || 0) + 1;
       }
