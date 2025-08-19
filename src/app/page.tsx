@@ -137,7 +137,7 @@ export default function Component() {
             </div>
             <div className="relative hidden h-[500px] w-[500px] lg:block">
               <Image
-                src="https://svvbafvdcppzxndukdlw.supabase.co/storage/v1/object/public/landing/WhatsApp%20Image%202025-08-14%20at%2010.15.31.jpeg"
+                src="https://svvbafvdcppzxndukdlw.supabase.co/storage/v1/object/public/landing/wellcome-pict-new-2.jpeg"
                 alt="Happy Service"
                 fill
                 priority
