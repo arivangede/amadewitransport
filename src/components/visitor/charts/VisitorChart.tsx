@@ -6,7 +6,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "../../ui/chart";
-import { Loading } from "@/components/loading";
 
 // Helper to format date to "23 June"
 function formatDayMonth(dateStr: string) {
@@ -31,24 +30,13 @@ const chartConfig = {
 
 interface VisitorChartProps {
   chartData: { date: string; visitors: number }[];
-  isLoading: boolean;
   timeRange: string;
 }
 
 export default function VisitorChart({
   chartData,
-  isLoading,
   timeRange,
 }: VisitorChartProps) {
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex-1 flex justify-center items-center">
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
-
-  // XAxis tick formatter
   const tickFormatter = (value: string) => {
     if (timeRange === "7days" || timeRange === "30days") {
       return formatDayMonth(value);
@@ -71,7 +59,19 @@ export default function VisitorChart({
         />
         <ChartTooltip
           cursor={false}
-          content={<ChartTooltipContent hideLabel />}
+          content={
+            <ChartTooltipContent
+              label={"date"}
+              labelFormatter={(value) => {
+                if (timeRange === "7days" || timeRange === "30days") {
+                  return formatDayMonth(value);
+                } else if (timeRange === "3month" || timeRange === "1year") {
+                  return formatMonth(value);
+                }
+                return value;
+              }}
+            />
+          }
         />
         <Line
           dataKey="visitors"

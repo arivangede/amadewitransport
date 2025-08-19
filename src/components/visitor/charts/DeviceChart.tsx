@@ -1,4 +1,3 @@
-import { Loading } from "@/components/loading";
 import {
   ChartConfig,
   ChartContainer,
@@ -12,7 +11,6 @@ interface DeviceChartProps {
     device: string;
     value: number;
   }[];
-  isLoading: boolean;
 }
 
 const chartConfig = {
@@ -39,19 +37,11 @@ const chartConfig = {
 
 export default function DeviceChart({
   deviceData,
-  isLoading,
 }: DeviceChartProps) {
   const formattedChartData = deviceData.map((d) => ({
     ...d,
     fill: "var(--primary)",
   }));
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex-1 flex justify-center items-center">
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
   return (
     <ChartContainer config={chartConfig} className="max-h-[100px] w-full">
       <BarChart accessibilityLayer data={formattedChartData} layout="vertical">
