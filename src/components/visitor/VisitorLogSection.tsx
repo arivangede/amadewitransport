@@ -22,11 +22,11 @@ import DeviceChart from "./charts/DeviceChart";
 import { Badge } from "../ui/badge";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
-const timeRanges = ["7 days", "30 days", "3 month", "1 year"];
+const timeRanges = ["7 days", "30 days", "1 year"];
 
 export default function VisitorLogSection() {
   const [timeRange, setTimeRange] = useState<
-    "7days" | "30days" | "3month" | "1year" | string
+    "7days" | "30days" | "1year" | string
   >("7days");
   const [chartVisitor, setChartVisitor] = useState<
     { date: string; visitors: number }[]
@@ -104,7 +104,6 @@ export default function VisitorLogSection() {
             <CardContent>
               <VisitorChart
                 chartData={chartVisitor}
-                isLoading={isLoading}
                 timeRange={timeRange}
               />
             </CardContent>
@@ -118,7 +117,7 @@ export default function VisitorLogSection() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <DeviceChart deviceData={deviceData} isLoading={isLoading} />
+                <DeviceChart deviceData={deviceData}/>
               </CardContent>
             </Card>
             <Card className="bg-transparent border border-5 border-white">

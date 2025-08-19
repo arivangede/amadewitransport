@@ -65,16 +65,23 @@ export async function GET(req: NextRequest) {
     const range = searchParams.get("range") || "7days";
 
     let fromDate = new Date();
+    let daysToGenerate = 0;
+    let useMonthlyFormat = false;
+    
     if (range === "1year") {
       fromDate = subYears(startOfDay(new Date()), 1);
-    } else if (range === "3month") {
-      fromDate = subMonths(startOfDay(new Date()), 3);
+      daysToGenerate = 12; // 12 months instead of 365 days
+      useMonthlyFormat = true;
     } else if (range === "30days") {
       fromDate = subDays(startOfDay(new Date()), 30);
+      daysToGenerate = 30;
     } else if (range === "7days") {
       fromDate = subDays(startOfDay(new Date()), 7);
+      daysToGenerate = 7;
     } else {
       fromDate = subYears(startOfDay(new Date()), 1);
+      daysToGenerate = 12; // Default to monthly for 1 year
+      useMonthlyFormat = true;
     }
 
     const visitors = await prisma.visitor.findMany({
@@ -88,15 +95,46 @@ export async function GET(req: NextRequest) {
       },
     });
 
+    // Generate all dates in the range
     const graphMap: Record<string, number> = {};
-    visitors.forEach((v) => {
-      const dateKey = v.created_at.toISOString().slice(0, 10); // yyyy-mm-dd
-      graphMap[dateKey] = (graphMap[dateKey] || 0) + 1;
-    });
-    const graphData = Object.entries(graphMap).map(([date, visitors]) => ({
-      date,
-      visitors,
-    }));
+    
+    if (useMonthlyFormat) {
+      // Generate monthly data points for 1 year
+      for (let i = 0; i < daysToGenerate; i++) {
+        const date = subMonths(new Date(), i);
+        const dateKey = date.toISOString().slice(0, 7); // YYYY-MM format
+        graphMap[dateKey] = 0;
+      }
+
+      // Fill in monthly visitor counts
+      visitors.forEach((v) => {
+        const dateKey = v.created_at.toISOString().slice(0, 7);
+        if (dateKey in graphMap) {
+          graphMap[dateKey] = (graphMap[dateKey] || 0) + 1;
+        }
+      });
+    } else {
+      // Original daily format for other ranges
+      for (let i = 0; i < daysToGenerate; i++) {
+        const date = subDays(new Date(), i);
+        const dateKey = date.toISOString().slice(0, 10);
+        graphMap[dateKey] = 0;
+      }
+
+      visitors.forEach((v) => {
+        const dateKey = v.created_at.toISOString().slice(0, 10);
+        if (dateKey in graphMap) {
+          graphMap[dateKey] = (graphMap[dateKey] || 0) + 1;
+        }
+      });
+    }
+
+    const graphData = Object.entries(graphMap)
+      .sort((a, b) => a[0].localeCompare(b[0])) // Sort by date
+      .map(([date, visitors]) => ({
+        date,
+        visitors,
+      }));
 
     // Data summary in array format as requested
     const deviceSummaryMap: Record<string, number> = {};
