@@ -141,7 +141,7 @@ export default function AuthForm({ type }: Props) {
         <Button type="submit" className="w-full" disabled={mutation.isPending}>
           {mutation.isPending ? <Loading /> : "Submit"}
         </Button>
-        <span className="flex gap-2">
+        <span className={`flex gap-2 ${type !== "register" ? "hidden" : ""}`}>
           {type === "register"
             ? "Already have an account?"
             : "Don't have account yet?"}

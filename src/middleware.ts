@@ -5,6 +5,11 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const token = req.cookies.get("token")?.value;
 
+  // Temporarily disable register route
+  if (pathname === "/auth/register") {
+    return NextResponse.redirect(new URL("/auth/login", req.url));
+  }
+
   const isAuthPage =
     pathname === "/auth/login" || pathname === "/auth/register";
   const isAdminPage = pathname.startsWith("/admin");
