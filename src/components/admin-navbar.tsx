@@ -35,7 +35,7 @@ export default function AdminNavbar() {
   }
 
   return (
-    <div className="flex justify-between items-center text-foreground p-4 w-full">
+    <div className="flex justify-between items-center text-foreground pt-4 px-4 w-full">
       <div className="flex flex-col items-center md:flex-row md:gap-2">
         <span className="text-2xl font-bold">
           AD<span className="text-primary">TS</span>
