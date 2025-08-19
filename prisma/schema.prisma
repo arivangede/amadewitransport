@@ -113,10 +113,11 @@ model PackageDiscount {
 model Visitor {
   id Int @id @default(autoincrement())
   uuid String
-  path String
   ip_address String
   user_agent String
   device String
-  location String
+  city String
+  region String
+  country String
   created_at DateTime @default(now())
 }
