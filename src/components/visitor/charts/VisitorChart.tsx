@@ -10,15 +10,16 @@ import {
 // Helper to format date to "23 June"
 function formatDayMonth(dateStr: string) {
   const date = new Date(dateStr);
-  const day = date.getDate();
-  const month = date.toLocaleString("en-US", { month: "short" });
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const day = new Date(date.toLocaleString("en-US", { timeZone })).getDate();
+  const month = date.toLocaleString("en-US", { month: "short", timeZone });
   return `${day} ${month}`;
 }
 
 // Helper to format date to "June"
 function formatMonth(dateStr: string) {
   const date = new Date(dateStr);
-  return date.toLocaleString("en-US", { month: "short" });
+  return date.toLocaleString("en-US", { month: "short", timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone });
 }
 
 const chartConfig = {
@@ -48,7 +49,7 @@ export default function VisitorChart({
 
   return (
     <ChartContainer config={chartConfig} className="max-h-[300px] w-full">
-      <LineChart data={chartData} margin={{ left: 20, right: 20 }}>
+      <LineChart data={chartData} margin={{ left: 20, right: 20, top: 40 }}>
         <CartesianGrid vertical={false} />
         <XAxis
           dataKey="date"
