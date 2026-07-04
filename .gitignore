@@ -28,6 +28,9 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files
+
+# deployment artifacts
+deploy_*.tar.gz
 .env*
 .env*.local
 
