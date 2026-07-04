@@ -1,0 +1,94 @@
+"use client";
+
+import { useState } from "react";
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetFooter,
+} from "../ui/sheet";
+import { Button } from "../ui/button";
+import { ChevronLeft, User2 } from "lucide-react";
+import AccountForm from "./AccountForm";
+import PasswordForm from "./PasswordForm";
+import LogoutDialog from "../auth/LogoutDialog";
+
+export function UserSettingsSheet() {
+  const [step, setStep] = useState<"menu" | "account" | "password">("menu");
+
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <button className="h-12 w-12 flex justify-center items-center bg-primary p-2 rounded-md cursor-pointer hover:bg-primary/80 transition">
+          <User2 />
+        </button>
+      </SheetTrigger>
+
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Account Settings</SheetTitle>
+          <SheetDescription>
+            Manage your account settings and preferences.
+          </SheetDescription>
+        </SheetHeader>
+
+        {step === "menu" && (
+          <div className="flex flex-col gap-4 mt-6 p-4">
+            <Button variant="outline" onClick={() => setStep("account")}>
+              Change Account Information
+            </Button>
+            <Button variant="outline" onClick={() => setStep("password")}>
+              Change Password
+            </Button>
+          </div>
+        )}
+        {step === "account" && (
+          <div className="p-4 flex-1">
+            <div className="flex items-center gap-2">
+              <Button
+                variant={"ghost"}
+                size={"icon"}
+                onClick={() => setStep("menu")}
+              >
+                <ChevronLeft />
+              </Button>
+              <h3 className="font-semibold">Change Account Information</h3>
+            </div>
+            <AccountForm />
+          </div>
+        )}
+        {step === "password" && (
+          <div className="p-4 flex-1">
+            <div className="flex items-center gap-2">
+              <Button
+                variant={"ghost"}
+                size={"icon"}
+                onClick={() => setStep("menu")}
+              >
+                <ChevronLeft />
+              </Button>
+              <h3 className="font-semibold">Change Password</h3>
+            </div>
+            <PasswordForm />
+          </div>
+        )}
+
+        <SheetFooter>
+          {step !== "menu" && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setStep("menu")}
+            >
+              Back
+            </Button>
+          )}
+          {step === "menu" && <LogoutDialog />}
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  );
+}
