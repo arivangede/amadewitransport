@@ -12,10 +12,14 @@ import visitorRoutes from "./routes/visitor";
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const isProduction = process.env.NODE_ENV === "production";
+
 // Middleware
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
+    origin: isProduction
+      ? false // same-origin in production (Express serves everything)
+      : (process.env.CLIENT_ORIGIN || "http://localhost:5173"),
     credentials: true,
   }),
 );
@@ -36,8 +40,8 @@ app.use("/api/user", userRoutes);
 app.use("/api/track-visitor", visitorRoutes);
 
 // Serve static files in production
-if (process.env.NODE_ENV === "production") {
-  const clientDist = path.join(__dirname, "../../client/dist");
+if (isProduction) {
+  const clientDist = path.resolve(__dirname, "../../client/dist");
   app.use(express.static(clientDist));
   app.get("*", (_req, res) => {
     res.sendFile(path.join(clientDist, "index.html"));
