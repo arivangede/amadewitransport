@@ -31,6 +31,14 @@ app.get("/api/health", (_req, res) => {
   res.json({ status: "ok", message: "Amadewi Trans API is running" });
 });
 
+// Favicon fallback — some browsers/bots request /favicon.ico
+app.get("/favicon.ico", (_req, res) => {
+  const faviconPath = isProduction
+    ? path.resolve(__dirname, "../../client/dist/favicon.svg")
+    : path.resolve(__dirname, "../../client/public/favicon.svg");
+  res.sendFile(faviconPath);
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/unit", unitRoutes);
