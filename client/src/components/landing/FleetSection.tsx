@@ -19,6 +19,7 @@ export function FleetSection() {
   const bar = useRef<HTMLDivElement>(null);
   const trigger = useRef<ScrollTrigger | null>(null);
   const [active, setActive] = useState(0);
+  const [pinned, setPinned] = useState(false);
   const activeRef = useRef(0);
   const count = units.length;
 
@@ -47,7 +48,6 @@ export function FleetSection() {
           start: "top top",
           end: () => `+=${distance()}`,
           pin: true,
-          anticipatePin: 1,
           // Lenis already smooths the wheel; a short scrub keeps the track glued to it instead of lagging behind.
           scrub: 0.35,
           invalidateOnRefresh: true,
@@ -58,8 +58,10 @@ export function FleetSection() {
         },
       });
       trigger.current = tween.scrollTrigger ?? null;
+      setPinned(true);
       return () => {
         trigger.current = null;
+        setPinned(false);
       };
     });
     ScrollTrigger.refresh();
@@ -126,7 +128,9 @@ export function FleetSection() {
         <div
           ref={viewport}
           onScroll={onNativeScroll}
-          data-lenis-prevent-wheel
+          // Only the native swipe rail needs the wheel to itself. While pinned, a native wheel here would fight
+          // Lenis's in-flight smoothing (it ignores native scroll mid-animation and writes its own position back).
+          data-lenis-prevent-wheel={pinned ? undefined : true}
           className="snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] lg:snap-none lg:overflow-visible [&::-webkit-scrollbar]:hidden"
         >
           <div ref={track} className="flex w-max gap-4 px-4 will-change-transform [--card-h:min(420px,42svh)] sm:px-8 lg:gap-8 lg:px-20">
