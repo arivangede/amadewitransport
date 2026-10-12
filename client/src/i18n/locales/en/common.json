@@ -49,12 +49,9 @@
   },
   "footer": {
     "about": "Private car & driver service from Batubulan, Sukawati, Bali.",
+    "explore": "Explore",
     "services": "Services",
-    "destinations": "Destinations",
     "contact": "Contact",
-    "charter": "Full-day charter",
-    "packages": "Tour packages",
-    "airport": "Airport transfer",
     "custom": "Custom tours",
     "available": "Available 24/7",
     "rights": "© {{year}} Amadewi Trans. All rights reserved."

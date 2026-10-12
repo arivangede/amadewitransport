@@ -49,12 +49,9 @@
   },
   "footer": {
     "about": "Layanan mobil & sopir pribadi dari Batubulan, Sukawati, Bali.",
+    "explore": "Jelajahi",
     "services": "Layanan",
-    "destinations": "Destinasi",
     "contact": "Kontak",
-    "charter": "Sewa harian",
-    "packages": "Paket tur",
-    "airport": "Antar-jemput bandara",
     "custom": "Tur sesuai keinginan",
     "available": "Siap 24/7",
     "rights": "© {{year}} Amadewi Trans. Hak cipta dilindungi."

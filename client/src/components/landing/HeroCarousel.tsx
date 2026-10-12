@@ -233,8 +233,6 @@ export function HeroCarousel() {
           aria-roledescription="carousel"
           aria-label={t("hero.region")}
           onKeyDown={onKeyDown}
-          onMouseEnter={() => hold("hover", true)}
-          onMouseLeave={() => hold("hover", false)}
           onFocus={() => hold("focus", true)}
           onBlur={(e) => !e.currentTarget.contains(e.relatedTarget as Node) && hold("focus", false)}
           className="absolute inset-x-4 bottom-[104px] z-20 h-[360px] sm:inset-x-8 lg:right-auto lg:bottom-[284px] lg:left-20 lg:h-[480px] lg:w-[min(1100px,calc(100%-160px))]"
@@ -245,6 +243,8 @@ export function HeroCarousel() {
             const active = k === index;
             const ctaClass =
               "inline-flex h-11 items-center gap-2.5 border-b border-gold-hi/50 text-[12px] font-bold tracking-[0.14em] text-gold-hi uppercase transition-colors hover:text-ivory lg:h-[52px] lg:rounded-full lg:border lg:border-gold-hi lg:px-[26px] lg:text-[13px] lg:tracking-[0.12em] lg:hover:bg-gold-hi lg:hover:text-ink";
+            // Only the CTA holds the slide on hover so it can't rotate away mid-click.
+            const ctaHover = { onMouseEnter: () => hold("hover", true), onMouseLeave: () => hold("hover", false) };
             return (
               <div
                 key={k}
@@ -283,7 +283,7 @@ export function HeroCarousel() {
                 <span className="block overflow-hidden py-0.5">
                   <span data-hero-line className="block">
                     {"whatsapp" in m ? (
-                      <a href={whatsappLink({ item: s.label })} target="_blank" rel="noopener noreferrer" className={ctaClass}>
+                      <a href={whatsappLink({ item: s.label })} target="_blank" rel="noopener noreferrer" className={ctaClass} {...ctaHover}>
                         {s.cta}
                         <ArrowRight className="size-4 lg:size-[18px]" strokeWidth={1.8} aria-hidden />
                       </a>
@@ -295,6 +295,7 @@ export function HeroCarousel() {
                           scrollTo(m.target);
                         }}
                         className={ctaClass}
+                        {...ctaHover}
                       >
                         {s.cta}
                         <ArrowRight className="size-4 lg:size-[18px]" strokeWidth={1.8} aria-hidden />
@@ -310,8 +311,6 @@ export function HeroCarousel() {
         {/* Indicators + controls */}
         <div
           data-hero-chrome
-          onMouseEnter={() => hold("hover", true)}
-          onMouseLeave={() => hold("hover", false)}
           className="absolute inset-x-4 bottom-7 z-20 flex h-11 items-center gap-1.5 sm:inset-x-8 lg:inset-x-20 lg:bottom-[196px] lg:grid lg:h-16 lg:grid-cols-[repeat(4,minmax(0,1fr))_220px] lg:items-start lg:gap-6"
         >
           {MEDIA.map((_, k) => {
