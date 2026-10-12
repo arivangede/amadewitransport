@@ -5,16 +5,8 @@ import { useTranslation } from "react-i18next";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { whatsappLink } from "@/lib/whatsapp";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { PAGES as LINKS } from "./pages";
 import { useLenis, useScrollTo } from "./smooth-scroll";
-
-// Pages only — in-page sections live in the floating SectionIndicator.
-const LINKS = [
-  { to: "/", key: "nav.pages.home" },
-  { to: "/fleet", key: "nav.pages.fleet" },
-  { to: "/packages", key: "nav.pages.packages" },
-  { to: "/about", key: "nav.pages.about" },
-  { to: "/contact", key: "nav.pages.contact" },
-];
 
 export function Navbar() {
   const { t } = useTranslation("common");
