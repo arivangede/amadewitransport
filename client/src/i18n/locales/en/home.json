@@ -62,7 +62,8 @@
       "charter": "Full-day charter · 12h",
       "airport": "Airport transfer",
       "package": "Tour package"
-    }
+    },
+    "datePlaceholder": "Select a date"
   },
   "marquee": {
     "label": "Destinations",

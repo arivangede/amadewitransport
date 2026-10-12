@@ -1,9 +1,8 @@
 import { ArrowUpRight } from "lucide-react";
 import { Trans, useTranslation } from "react-i18next";
+import { MAPS_URL } from "@/lib/whatsapp";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
-
-const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=CV%20Amadewi%20Transport%20Service%20Batubulan";
 
 /** Batubulan — the village the business (and every drive) starts from. */
 export function HomeSection() {

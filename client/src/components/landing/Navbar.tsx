@@ -2,22 +2,25 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import { MessageCircle, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { whatsappLink } from "@/lib/whatsapp";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useLenis, useScrollTo } from "./smooth-scroll";
 
+// Pages only — in-page sections live in the floating SectionIndicator.
 const LINKS = [
-  { href: "#fleet", key: "nav.fleet" },
-  { href: "#journeys", key: "nav.journeys" },
-  { href: "#day", key: "nav.day" },
-  { href: "#home", key: "nav.home" },
-  { href: "#contact", key: "nav.contact" },
+  { to: "/", key: "nav.pages.home" },
+  { to: "/fleet", key: "nav.pages.fleet" },
+  { to: "/packages", key: "nav.pages.packages" },
+  { to: "/about", key: "nav.pages.about" },
+  { to: "/contact", key: "nav.pages.contact" },
 ];
 
 export function Navbar() {
   const { t } = useTranslation("common");
   const scrollTo = useScrollTo();
   const lenis = useLenis();
+  const { pathname } = useLocation();
   const { scrollY } = useScroll();
   const [solid, setSolid] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -40,10 +43,12 @@ export function Navbar() {
     };
   }, [open, lenis]);
 
-  const go = (href: string) => (e: React.MouseEvent) => {
-    e.preventDefault();
+  // Close the menu on navigation; a link to the page you're on scrolls back to its top instead.
+  const go = (to: string) => (e: React.MouseEvent) => {
     setOpen(false);
-    scrollTo(href);
+    if (to !== pathname) return;
+    e.preventDefault();
+    scrollTo(0);
   };
 
   return (
@@ -57,7 +62,7 @@ export function Navbar() {
         }`}
       >
         <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-4 lg:h-[88px] lg:px-20">
-          <a href="#top" onClick={go("#top")} aria-label={t("brand.home")} className="flex items-center gap-3.5">
+          <Link to="/" onClick={go("/")} aria-label={t("brand.home")} className="flex items-center gap-3.5">
             <img src="/images/logo-adts.png" alt="ADTS" width={130} height={33} className="h-[26px] w-auto lg:h-[32px]" />
             <span className="hidden flex-col gap-0.5 sm:flex">
               <span className="text-[15px] font-bold tracking-[0.02em] text-ivory">
@@ -65,14 +70,28 @@ export function Navbar() {
               </span>
               <span className="text-[9px] tracking-[0.34em] text-mist uppercase">{t("brand.tagline")}</span>
             </span>
-          </a>
+          </Link>
 
           <nav aria-label={t("nav.label")} className="hidden items-center gap-9 text-[13px] tracking-[0.16em] uppercase xl:flex">
             {LINKS.map((l) => (
-              <a key={l.href} href={l.href} onClick={go(l.href)} className="group relative text-ivory transition-colors hover:text-gold-hi">
-                {t(l.key)}
-                <span className="absolute -bottom-1.5 left-0 h-px w-full origin-right scale-x-0 bg-gold-hi transition-transform duration-500 ease-out-expo group-hover:origin-left group-hover:scale-x-100" />
-              </a>
+              <NavLink
+                key={l.to}
+                to={l.to}
+                end
+                onClick={go(l.to)}
+                className={({ isActive }) => `group relative transition-colors hover:text-gold-hi ${isActive ? "text-gold-hi" : "text-ivory"}`}
+              >
+                {({ isActive }) => (
+                  <>
+                    {t(l.key)}
+                    <span
+                      className={`absolute -bottom-1.5 left-0 h-px w-full bg-gold-hi transition-transform duration-500 ease-out-expo ${
+                        isActive ? "origin-left scale-x-100" : "origin-right scale-x-0 group-hover:origin-left group-hover:scale-x-100"
+                      }`}
+                    />
+                  </>
+                )}
+              </NavLink>
             ))}
           </nav>
 
@@ -129,18 +148,24 @@ export function Navbar() {
             </div>
             <nav aria-label={t("nav.label")} className="mt-10 flex flex-col">
               {LINKS.map((l, i) => (
-                <motion.a
-                  key={l.href}
-                  href={l.href}
-                  onClick={go(l.href)}
+                <motion.div
+                  key={l.to}
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.06, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex items-baseline justify-between border-b border-line py-5 font-display text-[40px] leading-none text-ivory"
                 >
-                  {t(l.key)}
-                  <span className="font-code text-[12px] text-gold">0{i + 1}</span>
-                </motion.a>
+                  <NavLink
+                    to={l.to}
+                    end
+                    onClick={go(l.to)}
+                    className={({ isActive }) =>
+                      `flex items-baseline justify-between border-b border-line py-5 font-display text-[40px] leading-none ${isActive ? "text-gold-hi" : "text-ivory"}`
+                    }
+                  >
+                    {t(l.key)}
+                    <span className="font-code text-[12px] text-gold">0{i + 1}</span>
+                  </NavLink>
+                </motion.div>
               ))}
             </nav>
             <div className="mt-auto flex flex-col gap-4">

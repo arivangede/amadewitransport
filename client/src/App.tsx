@@ -3,7 +3,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { useState } from "react";
 import { Toaster } from "sonner";
+import { LandingLayout } from "./components/landing/LandingLayout";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+import FleetPage from "./pages/FleetPage";
 import HomePage from "./pages/HomePage";
+import PackagesPage from "./pages/PackagesPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminLayout from "./pages/AdminLayout";
@@ -29,7 +34,13 @@ function App() {
         <BrowserRouter>
           <VisitorTrackerProvider />
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route element={<LandingLayout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/fleet" element={<FleetPage />} />
+              <Route path="/packages" element={<PackagesPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+            </Route>
             <Route path="/auth/login" element={<LoginPage />} />
             <Route path="/auth/register" element={<RegisterPage />} />
             <Route path="/admin" element={<AdminLayout />}>

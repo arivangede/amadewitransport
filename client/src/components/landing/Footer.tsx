@@ -1,25 +1,17 @@
 import { useTranslation } from "react-i18next";
-import { SUPPORTED_LANGUAGES } from "@/i18n";
+import { Link } from "react-router-dom";
 import { CONTACT_EMAIL, CONTACT_PHONE, whatsappLink } from "@/lib/whatsapp";
-import { useScrollTo } from "./smooth-scroll";
+import { MakerMark } from "./MakerMark";
 
 export function Footer() {
   const { t } = useTranslation("common");
   const home = useTranslation("home");
-  const scrollTo = useScrollTo();
   const destinations = ((home.t("marquee.items", { returnObjects: true }) as string[]) ?? []).slice(0, 4);
 
-  const anchor = (href: string, label: string) => (
-    <a
-      href={href}
-      onClick={(e) => {
-        e.preventDefault();
-        scrollTo(href);
-      }}
-      className="text-ivory transition-colors hover:text-gold-hi"
-    >
+  const anchor = (to: string, label: string) => (
+    <Link to={to} className="text-ivory transition-colors hover:text-gold-hi">
       {label}
-    </a>
+    </Link>
   );
 
   return (
@@ -31,15 +23,15 @@ export function Footer() {
         </div>
         <nav aria-label={t("footer.services")} className="flex flex-col gap-3 text-[14px] lg:col-span-2 lg:col-start-6">
           <span className="label-caps text-fog">{t("footer.services")}</span>
-          {anchor("#fleet", t("footer.charter"))}
-          {anchor("#journeys", t("footer.packages"))}
-          {anchor("#contact", t("footer.airport"))}
-          {anchor("#contact", t("footer.custom"))}
+          {anchor("/fleet", t("footer.charter"))}
+          {anchor("/packages", t("footer.packages"))}
+          {anchor("/contact", t("footer.airport"))}
+          {anchor("/contact", t("footer.custom"))}
         </nav>
         <nav aria-label={t("footer.destinations")} className="flex flex-col gap-3 text-[14px] lg:col-span-2">
           <span className="label-caps text-fog">{t("footer.destinations")}</span>
           {destinations.map((d) => (
-            <span key={d}>{anchor("#journeys", d)}</span>
+            <span key={d}>{anchor("/packages", d)}</span>
           ))}
         </nav>
         <div className="flex flex-col gap-3 text-[14px] lg:col-span-2">
@@ -55,9 +47,9 @@ export function Footer() {
           <span className="text-mist">{t("footer.available")}</span>
         </div>
       </div>
-      <div className="flex flex-col justify-between gap-3 border-t border-[#1c2026] pt-6 text-[13px] text-fog sm:flex-row">
+      <div className="flex flex-col justify-between gap-3 border-t border-[#1c2026] pt-6 text-[13px] text-fog sm:flex-row sm:items-center">
         <span>{t("footer.rights", { year: new Date().getFullYear() })}</span>
-        <span className="font-code uppercase">{SUPPORTED_LANGUAGES.join(" · ")}</span>
+        <MakerMark />
       </div>
     </footer>
   );

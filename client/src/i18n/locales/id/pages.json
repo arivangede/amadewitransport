@@ -1,0 +1,51 @@
+{
+  "fleet": {
+    "meta": {
+      "title": "Armada — Amadewi Trans",
+      "description": "Seluruh armada Amadewi Trans, sudah termasuk sopir, BBM dan 12 jam."
+    },
+    "eyebrow": "Armada",
+    "title": "Setiap kabin, <gold>satu standar.</gold>",
+    "text": "Mobil bersih ber-AC yang dikemudikan oleh orang yang merawatnya sendiri. Pilih yang sesuai rombongan Anda — sopir, BBM dan dua belas jam sudah termasuk.",
+    "count_one": "{{count}} kendaraan siap",
+    "count_other": "{{count}} kendaraan siap"
+  },
+  "packages": {
+    "meta": {
+      "title": "Paket Tur — Amadewi Trans",
+      "description": "Rute sehari penuh pilihan di Bali, harga per mobil sudah termasuk semuanya."
+    },
+    "eyebrow": "Paket Tur",
+    "title": "Rute yang layak <gold>untuk sehari penuh.</gold>",
+    "text": "Setiap paket adalah perjalanan sehari yang sudah sering kami tempuh — diatur mengikuti cahaya, keramaian dan waktu makan siang. Buka untuk detailnya, atau minta kami menyesuaikannya."
+  },
+  "about": {
+    "meta": {
+      "title": "Tentang Kami — Amadewi Trans",
+      "description": "Layanan transportasi keluarga dari Batubulan, Bali — siapa kami dan cara kami berkendara."
+    },
+    "eyebrow": "Tentang Amadewi Trans",
+    "title": "Usaha keluarga <gold>dari Batubulan.</gold>",
+    "text": "Kami memulai dengan satu mobil dan janji untuk mengantar tamu seperti mengantar keluarga sendiri. Janji itu masih menjadi seluruh rencana bisnis kami.",
+    "storyEyebrow": "Cerita kami",
+    "story": [
+      "Amadewi Trans berawal di Batubulan, desa pemahat batu di jalur antara bandara dan Ubud.",
+      "Sopir kami adalah tetangga, bukan tenaga kontrak. Mereka tahu jalan pintas yang menghindari macet, warung yang layak disinggahi dan kapan sebuah pura cukup sepi untuk dinikmati.",
+      "Setiap pemesanan dijawab oleh orang sungguhan, setiap mobil dibersihkan sebelum setiap perjalanan, dan harga yang kami sebut adalah harga yang Anda bayar — BBM, parkir dan sopir sudah termasuk."
+    ]
+  },
+  "contact": {
+    "meta": {
+      "title": "Kontak — Amadewi Trans",
+      "description": "Pesan mobil dan sopir pribadi di Bali. WhatsApp kami kapan saja — dibalas oleh orang sungguhan."
+    },
+    "eyebrow": "Kontak",
+    "title": "Ceritakan <gold>tujuan Anda.</gold>",
+    "text": "Kirim tanggal dan titik jemput Anda. Tim kami di Batubulan akan membalas — biasanya dalam hitungan menit, kapan pun.",
+    "quote": "Minta penawaran",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "garage": "Garasi kami",
+    "hours": "Jam layanan"
+  }
+}

@@ -18,7 +18,14 @@
     "home": "Rumah Kami",
     "contact": "Kontak",
     "openMenu": "Buka menu",
-    "closeMenu": "Tutup menu"
+    "closeMenu": "Tutup menu",
+    "pages": {
+      "home": "Beranda",
+      "fleet": "Armada",
+      "packages": "Paket",
+      "about": "Tentang",
+      "contact": "Kontak"
+    }
   },
   "cta": {
     "whatsapp": "Pesan via WhatsApp",
@@ -56,5 +63,21 @@
     "loading": "Memuat…",
     "empty": "Belum ada data — kirimi kami pesan dan kami siapkan untuk Anda.",
     "error": "Data belum bisa dimuat. Silakan coba beberapa saat lagi."
+  },
+  "sections": {
+    "label": "Di halaman ini",
+    "top": "Selamat Datang",
+    "standard": "Standar Kami",
+    "fleet": "Armada",
+    "day": "Sehari Bersama Kami",
+    "journeys": "Perjalanan",
+    "voices": "Ulasan",
+    "home": "Rumah Kami",
+    "contact": "Pesan"
+  },
+  "maker": {
+    "built": "dibuat oleh",
+    "find": "temui saya di",
+    "label": "Dibuat oleh Arivan Satria — kunjungi arivansatria.com"
   }
 }

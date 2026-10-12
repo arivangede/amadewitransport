@@ -47,7 +47,7 @@ export function StandardSection() {
   }, [lang]);
 
   return (
-    <section className="mx-auto flex max-w-[1440px] flex-col gap-14 px-4 py-20 sm:px-8 lg:gap-[88px] lg:px-20 lg:py-[140px]">
+    <section id="standard" className="mx-auto flex max-w-[1440px] flex-col gap-14 px-4 py-20 sm:px-8 lg:gap-[88px] lg:px-20 lg:py-[140px]">
       <SectionHeading eyebrow="standard.eyebrow" title="standard.title" text="standard.text" titleClassName="lg:max-w-[820px]" />
 
       <div className="grid border-t border-line md:grid-cols-3">

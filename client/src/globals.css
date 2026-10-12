@@ -202,6 +202,12 @@ html.lenis body {
   outline-offset: 3px;
 }
 
+/* The landing's custom cursor replaces the native pointer everywhere, portals included. */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+
 @keyframes dash {
   to { stroke-dashoffset: -16; }
 }

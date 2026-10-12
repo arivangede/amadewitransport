@@ -1,0 +1,51 @@
+{
+  "fleet": {
+    "meta": {
+      "title": "The Fleet — Amadewi Trans",
+      "description": "Every car in the Amadewi Trans fleet, with a driver, fuel and 12 hours included."
+    },
+    "eyebrow": "The Fleet",
+    "title": "Every cabin, <gold>one standard.</gold>",
+    "text": "Clean, air-conditioned cars driven by the same people who maintain them. Pick the one that fits your party — the driver, fuel and twelve hours come with it.",
+    "count_one": "{{count}} vehicle ready",
+    "count_other": "{{count}} vehicles ready"
+  },
+  "packages": {
+    "meta": {
+      "title": "Tour Packages — Amadewi Trans",
+      "description": "Curated full-day routes across Bali, priced per car with everything included."
+    },
+    "eyebrow": "Tour Packages",
+    "title": "Routes worth <gold>a whole day.</gold>",
+    "text": "Each package is a full day we've driven many times — timed around the light, the crowds and lunch. Open one for the details, or ask us to tailor it."
+  },
+  "about": {
+    "meta": {
+      "title": "About Us — Amadewi Trans",
+      "description": "A family transport service from Batubulan, Bali — who we are and how we drive."
+    },
+    "eyebrow": "About Amadewi Trans",
+    "title": "A family business <gold>from Batubulan.</gold>",
+    "text": "We started with one car and a promise to drive guests the way we'd drive our own family. That promise is still the whole business plan.",
+    "storyEyebrow": "Our story",
+    "story": [
+      "Amadewi Trans began in Batubulan, the stone-carving village on the road between the airport and Ubud.",
+      "Our drivers are neighbours, not contractors. They know the back roads that skip the traffic, the warung worth stopping at and when a temple is quiet enough to enjoy.",
+      "Every booking is answered by a real person, every car is cleaned before every trip, and the price we quote is the price you pay — fuel, parking and the driver included."
+    ]
+  },
+  "contact": {
+    "meta": {
+      "title": "Contact — Amadewi Trans",
+      "description": "Book a private car and driver in Bali. WhatsApp us any hour — a real person replies."
+    },
+    "eyebrow": "Contact",
+    "title": "Tell us where <gold>you're headed.</gold>",
+    "text": "Send your dates and pick-up point. A real person in Batubulan replies — usually within minutes, any hour of the day.",
+    "quote": "Get a quote",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "garage": "Our garage",
+    "hours": "Hours"
+  }
+}

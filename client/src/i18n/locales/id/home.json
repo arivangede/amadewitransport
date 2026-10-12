@@ -62,7 +62,8 @@
       "charter": "Sewa harian · 12 jam",
       "airport": "Antar-jemput bandara",
       "package": "Paket tur"
-    }
+    },
+    "datePlaceholder": "Pilih tanggal"
   },
   "marquee": {
     "label": "Destinasi",

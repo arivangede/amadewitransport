@@ -18,7 +18,14 @@
     "home": "Our Home",
     "contact": "Contact",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "pages": {
+      "home": "Home",
+      "fleet": "Fleet",
+      "packages": "Packages",
+      "about": "About",
+      "contact": "Contact"
+    }
   },
   "cta": {
     "whatsapp": "Book on WhatsApp",
@@ -56,5 +63,21 @@
     "loading": "Loading…",
     "empty": "Nothing to show yet — message us and we'll tailor one for you.",
     "error": "We couldn't load this right now. Please try again shortly."
+  },
+  "sections": {
+    "label": "On this page",
+    "top": "Welcome",
+    "standard": "Our Standard",
+    "fleet": "The Fleet",
+    "day": "A Day With Us",
+    "journeys": "Journeys",
+    "voices": "Voices",
+    "home": "Our Home",
+    "contact": "Reserve"
+  },
+  "maker": {
+    "built": "built by",
+    "find": "find me at",
+    "label": "Built by Arivan Satria — visit arivansatria.com"
   }
 }

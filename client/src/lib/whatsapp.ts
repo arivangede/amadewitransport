@@ -5,6 +5,7 @@ const RAW_PHONE: string =
 
 export const CONTACT_PHONE = RAW_PHONE;
 export const CONTACT_EMAIL: string = import.meta.env.VITE_CONTACT_EMAIL || "";
+export const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=CV%20Amadewi%20Transport%20Service%20Batubulan";
 
 interface BookingMessage {
   item?: string;

@@ -22,24 +22,20 @@ export function DaySection() {
       const mm = gsap.matchMedia();
       mm.add({ desktop: "(min-width: 1024px)", mobile: "(max-width: 1023px)" }, (c) => {
         const desktop = c.conditions?.desktop;
-        gsap.fromTo(
-          "[data-day-fill]",
-          desktop ? { scaleX: 0 } : { scaleY: 0 },
-          {
-            ...(desktop ? { scaleX: 1 } : { scaleY: 1 }),
-            ease: "none",
-            scrollTrigger: {
-              trigger: el,
-              start: desktop ? "top 70%" : "top 75%",
-              end: desktop ? "bottom 45%" : "bottom 55%",
-              scrub: 0.6,
-              onUpdate: (self) => {
-                light(self.progress);
-                if (desktop) gsap.set("[data-day-dot]", { left: `${self.progress * 100}%` });
-              },
-            },
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            trigger: el,
+            start: desktop ? "top 70%" : "top 75%",
+            end: desktop ? "bottom 45%" : "bottom 55%",
+            scrub: 0.4,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => light(self.progress),
           },
-        );
+        });
+        tl.fromTo("[data-day-fill]", desktop ? { scaleX: 0 } : { scaleY: 0 }, desktop ? { scaleX: 1 } : { scaleY: 1 }, 0);
+        // The dot rides a full-width track: a transform tween instead of setting `left` on every frame.
+        if (desktop) tl.fromTo("[data-day-dot]", { xPercent: 0 }, { xPercent: 100 }, 0);
       });
       light(0);
     }, el);
@@ -54,7 +50,9 @@ export function DaySection() {
         {/* Desktop horizontal rail */}
         <div className="absolute top-3 right-0 left-0 hidden h-px bg-line lg:block" />
         <div data-day-fill className="absolute top-[11px] left-0 hidden h-[3px] w-full origin-left bg-[linear-gradient(90deg,#8c6c33,#e8d19a)] lg:block" />
-        <div data-day-dot className="absolute top-0.5 left-0 hidden size-[22px] -translate-x-1/2 rounded-full border-2 border-gold-hi bg-ink lg:block" />
+        <div data-day-dot className="pointer-events-none absolute inset-x-0 top-0.5 hidden will-change-transform lg:block">
+          <div className="size-[22px] -translate-x-1/2 rounded-full border-2 border-gold-hi bg-ink" />
+        </div>
         {/* Mobile vertical rail */}
         <div className="absolute top-1.5 bottom-1.5 left-[6px] w-px bg-line lg:hidden" />
         <div data-day-fill className="absolute top-1.5 bottom-1.5 left-[5px] w-[3px] origin-top bg-[linear-gradient(180deg,#8c6c33,#e8d19a)] lg:hidden" />

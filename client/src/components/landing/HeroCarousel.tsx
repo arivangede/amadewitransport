@@ -39,7 +39,7 @@ export function HeroCarousel() {
   const transition = useRef<gsap.core.Timeline | null>(null);
   const kenBurns = useRef<gsap.core.Tween | null>(null);
   const progress = useRef<gsap.core.Tween | null>(null);
-  const holds = useRef({ user: false, hover: false, focus: false, hidden: false });
+  const holds = useRef({ user: false, hover: false, focus: false, hidden: false, menu: false });
   // Lets the progress tween advance slides without a stale closure.
   const goToRef = useRef<(k: number) => void>(() => {});
   const [index, setIndex] = useState(0);
@@ -49,7 +49,7 @@ export function HeroCarousel() {
 
   const syncPlayback = useCallback(() => {
     const h = holds.current;
-    const hold = h.user || h.hover || h.focus || h.hidden;
+    const hold = h.user || h.hover || h.focus || h.hidden || h.menu;
     if (!progress.current) return;
     if (hold) progress.current.pause();
     else progress.current.resume();
@@ -159,7 +159,7 @@ export function HeroCarousel() {
     return () => document.removeEventListener("visibilitychange", onVis);
   }, [syncPlayback]);
 
-  const hold = (key: "hover" | "focus", value: boolean) => {
+  const hold = (key: "hover" | "focus" | "menu", value: boolean) => {
     holds.current[key] = value;
     syncPlayback();
   };
@@ -263,18 +263,19 @@ export function HeroCarousel() {
                   </span>
                 </span>
                 <p className="font-display text-[50px] leading-[0.95] font-normal tracking-[-0.01em] text-[#f4f1ea] sm:text-[72px] lg:text-[clamp(84px,8.2vw,118px)] lg:leading-[0.92] lg:tracking-[-0.02em]" aria-hidden={false}>
-                  <span className="block overflow-hidden pb-[0.06em]">
+                  <span className="-mb-[0.14em] block overflow-hidden pb-[0.2em]">
                     <span data-hero-line className="block">
                       {s.line1}
                     </span>
                   </span>
-                  <span className="block overflow-hidden pb-[0.1em]">
-                    <em data-hero-line className="text-gold block font-normal">
+                  <span className="-mb-[0.12em] block overflow-hidden pb-[0.04em]">
+                    {/* Padding on the em itself: text-gold clips its gradient to the box, so tails outside it vanish. */}
+                    <em data-hero-line className="text-gold block pr-[0.12em] pb-[0.18em] font-normal">
                       {s.line2}
                     </em>
                   </span>
                 </p>
-                <span className="block overflow-hidden">
+                <span className="-mb-[0.3em] block overflow-hidden pb-[0.3em]">
                   <span data-hero-line className="block max-w-[560px] text-[15px] leading-[1.6] font-light text-ivory-soft lg:text-[19px]">
                     {s.text}
                   </span>
@@ -376,7 +377,8 @@ export function HeroCarousel() {
 
         {/* Desktop booking bar sits inside the hero */}
         <div data-hero-chrome className="absolute inset-x-20 bottom-14 z-20 hidden lg:block">
-          <BookingBar />
+          {/* Booking popovers portal outside the hero, so they hold the slideshow explicitly. */}
+          <BookingBar onOpenChange={(open) => hold("menu", open)} />
         </div>
       </section>
 

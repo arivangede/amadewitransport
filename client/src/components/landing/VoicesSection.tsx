@@ -19,7 +19,7 @@ export function VoicesSection() {
   };
 
   return (
-    <section className="mx-auto grid max-w-[1440px] gap-10 px-4 py-20 sm:px-8 lg:grid-cols-12 lg:gap-6 lg:px-20 lg:py-[130px]">
+    <section id="voices" className="mx-auto grid max-w-[1440px] gap-10 px-4 py-20 sm:px-8 lg:grid-cols-12 lg:gap-6 lg:px-20 lg:py-[130px]">
       <Reveal className="flex flex-col gap-6 lg:col-span-4">
         <span className="eyebrow">{t("voices.eyebrow")}</span>
         <h2 className="font-display text-[46px] leading-none font-normal lg:text-[64px]">

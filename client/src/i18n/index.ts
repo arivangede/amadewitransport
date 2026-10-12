@@ -44,7 +44,7 @@ i18n
     supportedLngs: SUPPORTED_LANGUAGES,
     nonExplicitSupportedLngs: true,
     load: "languageOnly",
-    ns: ["common", "home", "packages"],
+    ns: ["common", "home", "packages", "pages"],
     defaultNS: "common",
     interpolation: { escapeValue: false },
     returnObjects: true,

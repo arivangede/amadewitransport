@@ -19,11 +19,16 @@ export function FleetSection() {
   const bar = useRef<HTMLDivElement>(null);
   const trigger = useRef<ScrollTrigger | null>(null);
   const [active, setActive] = useState(0);
+  const activeRef = useRef(0);
   const count = units.length;
 
+  // Runs every scrub frame: touch the DOM directly and only re-render when the counter changes.
   const setProgress = (p: number) => {
     if (bar.current) bar.current.style.transform = `scaleX(${Math.max(0.04, p)})`;
-    setActive(Math.min(count - 1, Math.max(0, Math.round(p * (count - 1)))));
+    const next = Math.min(count - 1, Math.max(0, Math.round(p * (count - 1))));
+    if (next === activeRef.current) return;
+    activeRef.current = next;
+    setActive(next);
   };
 
   useLayoutEffect(() => {
@@ -36,13 +41,19 @@ export function FleetSection() {
       const tween = gsap.to(track.current, {
         x: () => -distance(),
         ease: "none",
+        force3D: true,
         scrollTrigger: {
           trigger: section.current,
           start: "top top",
           end: () => `+=${distance()}`,
           pin: true,
-          scrub: 1,
+          anticipatePin: 1,
+          // Lenis already smooths the wheel; a short scrub keeps the track glued to it instead of lagging behind.
+          scrub: 0.35,
           invalidateOnRefresh: true,
+          // Units load after the sections below have measured themselves; refresh this pin first so they
+          // account for its spacer.
+          refreshPriority: 1,
           onUpdate: (self) => setProgress(self.progress),
         },
       });
@@ -51,6 +62,7 @@ export function FleetSection() {
         trigger.current = null;
       };
     });
+    ScrollTrigger.refresh();
     return () => mm.revert();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count]);
@@ -117,9 +129,9 @@ export function FleetSection() {
           data-lenis-prevent-wheel
           className="snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] lg:snap-none lg:overflow-visible [&::-webkit-scrollbar]:hidden"
         >
-          <div ref={track} className="flex w-max gap-4 px-4 will-change-transform sm:px-8 lg:gap-8 lg:px-20">
+          <div ref={track} className="flex w-max gap-4 px-4 will-change-transform [--card-h:min(420px,42svh)] sm:px-8 lg:gap-8 lg:px-20">
             {isLoading
-              ? [0, 1, 2].map((i) => <div key={i} className="h-[420px] w-[82vw] max-w-[380px] animate-pulse rounded bg-raised lg:h-[560px] lg:w-[480px] lg:max-w-none" />)
+              ? [0, 1, 2].map((i) => <div key={i} className="aspect-[3/2] w-[82vw] max-w-[420px] animate-pulse rounded bg-raised lg:aspect-auto lg:h-(--card-h) lg:w-[calc(var(--card-h)*3/2)] lg:max-w-none" />)
               : null}
             {!isLoading && (isError || !count) ? (
               <p className="max-w-md py-10 text-[15px] text-mist">{isError ? t("common:state.error") : t("common:state.empty")}</p>
@@ -134,7 +146,8 @@ export function FleetSection() {
   );
 }
 
-function UnitCard({ unit, featured }: { unit: UnitWithRelations; featured: boolean }) {
+/** `rail` sizes the card for the pinned horizontal track; `grid` fills its grid cell (fleet page). */
+export function UnitCard({ unit, featured = false, layout = "rail" }: { unit: UnitWithRelations; featured?: boolean; layout?: "rail" | "grid" }) {
   const { t, i18n } = useTranslation("home");
   const lang = i18n.resolvedLanguage ?? "en";
   const pricing = getPricing(unit, lang);
@@ -143,16 +156,24 @@ function UnitCard({ unit, featured }: { unit: UnitWithRelations; featured: boole
   return (
     <article
       data-cursor="view"
-      className={`group flex w-[82vw] max-w-[380px] shrink-0 snap-start flex-col gap-5 lg:max-w-none lg:gap-7 ${featured ? "lg:w-[620px]" : "lg:w-[440px]"}`}
+      className={
+        layout === "grid"
+          ? "group flex w-full flex-col gap-5 lg:gap-6"
+          : `group flex w-[82vw] max-w-[420px] shrink-0 snap-start flex-col gap-5 lg:max-w-none lg:gap-7 ${
+              featured ? "lg:w-[calc(var(--card-h)*16/9)]" : "lg:w-[calc(var(--card-h)*3/2)]"
+            }`
+      }
     >
-      <div className="relative h-[300px] overflow-hidden rounded bg-raised lg:h-[460px]">
+      {/* Landscape frames: vehicle photos are wide, so a squarish box crops most of the car away. */}
+      <div className={`relative aspect-[3/2] overflow-hidden rounded bg-raised ${layout === "rail" ? "lg:aspect-auto lg:h-(--card-h)" : ""}`}>
         {image ? (
           <img
             src={image}
             alt={unit.name}
-            loading="lazy"
+            // Eager: cards slide in horizontally while pinned, where lazy loading kicks in mid-scrub.
+            loading="eager"
             decoding="async"
-            className="size-full object-cover transition-transform duration-[1.4s] ease-out-expo group-hover:scale-[1.06]"
+            className="size-full object-cover transition-transform duration-[1.4s] ease-out-expo group-hover:scale-[1.03]"
           />
         ) : (
           <div className="flex size-full flex-col justify-between border border-line p-7">
