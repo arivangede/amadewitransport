@@ -53,8 +53,18 @@ export function Navbar() {
           solid ? "border-b border-ivory/10 bg-ink/80 backdrop-blur-xl" : "border-b border-ivory/10 bg-transparent"
         }`}
       >
-        <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-4 lg:h-[88px] lg:px-20">
-          <Link to="/" onClick={go("/")} aria-label={t("brand.home")} className="flex items-center gap-3.5">
+        {/* Off the top the bar tightens: shorter row, smaller brand, slimmer controls. */}
+        <div
+          className={`mx-auto flex max-w-[1440px] items-center justify-between px-4 transition-[height] duration-500 ease-out-expo lg:px-20 ${
+            solid ? "h-[60px] lg:h-[68px]" : "h-[72px] lg:h-[88px]"
+          }`}
+        >
+          <Link
+            to="/"
+            onClick={go("/")}
+            aria-label={t("brand.home")}
+            className={`flex origin-left items-center gap-3.5 transition-transform duration-500 ease-out-expo ${solid ? "scale-[0.86]" : "scale-100"}`}
+          >
             <img src="/images/logo-adts.png" alt="ADTS" width={130} height={33} className="h-[26px] w-auto lg:h-[32px]" />
             <span className="hidden flex-col gap-0.5 sm:flex">
               <span className="text-[15px] font-bold tracking-[0.02em] text-ivory">
@@ -93,7 +103,9 @@ export function Navbar() {
               href={whatsappLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gold-brushed hidden h-12 items-center gap-2.5 rounded-full px-6 text-[13px] font-bold tracking-[0.08em] text-ink uppercase transition-[filter] hover:brightness-110 md:flex"
+              className={`bg-gold-brushed hidden items-center gap-2.5 rounded-full text-[13px] font-bold tracking-[0.08em] text-ink uppercase transition-[filter,height,padding] duration-500 ease-out-expo hover:brightness-110 md:flex ${
+                solid ? "h-10 px-5" : "h-12 px-6"
+              }`}
             >
               <MessageCircle className="size-[18px]" strokeWidth={1.8} aria-hidden />
               {t("cta.whatsapp")}
@@ -103,7 +115,9 @@ export function Navbar() {
               onClick={() => setOpen(true)}
               aria-label={t("nav.openMenu")}
               aria-expanded={open}
-              className="flex size-11 cursor-pointer items-center justify-center rounded-full border border-ivory/25 text-ivory xl:hidden"
+              className={`flex cursor-pointer items-center justify-center rounded-full border border-ivory/25 text-ivory transition-[width,height] duration-500 ease-out-expo xl:hidden ${
+                solid ? "size-10" : "size-11"
+              }`}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden>
                 <path d="M4 9h16M4 15h10" />
