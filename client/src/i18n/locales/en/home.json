@@ -1,0 +1,154 @@
+{
+  "meta": {
+    "title": "Amadewi Trans | Private Car & Driver in Bali",
+    "description": "Private car, local driver and fuel for twelve full hours in one honest rate. Tour packages and airport transfers from Batubulan, Bali."
+  },
+  "hero": {
+    "srTitle": "Amadewi Trans — private car and driver in Bali",
+    "region": "Highlights",
+    "slideOf": "{{n}} of {{total}}: {{label}}",
+    "goTo": "Go to slide {{n}}, {{label}}",
+    "prev": "Previous slide",
+    "next": "Next slide",
+    "pause": "Pause slideshow",
+    "play": "Play slideshow",
+    "slides": [
+      {
+        "label": "Private charter",
+        "kicker": "Private driver & car · Bali, Indonesia",
+        "line1": "Bali,",
+        "line2": "driven beautifully.",
+        "text": "A private car, a local driver who knows the island by heart, and fuel for twelve full hours — all in one honest rate.",
+        "cta": "Plan my day",
+        "alt": "Pura Ulun Danu Beratan at sunrise"
+      },
+      {
+        "label": "Your driver",
+        "kicker": "Your driver · Born in Bali",
+        "line1": "A local friend",
+        "line2": "at the wheel.",
+        "text": "Licensed and English-speaking. Knows which temple to reach before the tour buses — and which warung to stop at after.",
+        "cta": "Meet the fleet",
+        "alt": "An Amadewi driver beside a black Toyota Alphard"
+      },
+      {
+        "label": "Heritage route",
+        "kicker": "Signature journey · Batubulan",
+        "line1": "Where Bali’s",
+        "line2": "craft begins.",
+        "text": "The morning Barong dance, stone carvers, Celuk silver and Tirta Empul — ten hours from our own front door.",
+        "cta": "View the journeys",
+        "alt": "A Barong mask during a Balinese dance performance"
+      },
+      {
+        "label": "Airport transfer",
+        "kicker": "Airport transfer · Day or night",
+        "line1": "Landed?",
+        "line2": "We’re already here.",
+        "text": "Your name on a board at arrivals, cold water in the car, and a calm drive to your villa — whatever time you land.",
+        "cta": "Book a transfer",
+        "alt": "The Balinese split gate at Ngurah Rai airport framing the runway"
+      }
+    ]
+  },
+  "booking": {
+    "service": "Service",
+    "date": "Date",
+    "pickup": "Pick-up",
+    "pickupPlaceholder": "Hotel, villa or area",
+    "guests": "Guests",
+    "submit": "Get my quote",
+    "services": {
+      "charter": "Full-day charter · 12h",
+      "airport": "Airport transfer",
+      "package": "Tour package"
+    }
+  },
+  "marquee": {
+    "label": "Destinations",
+    "items": ["Ubud", "Tanah Lot", "Kintamani", "Uluwatu", "Sidemen", "Jatiluwih", "Batubulan", "Nusa Dua"]
+  },
+  "standard": {
+    "eyebrow": "(01) — The Amadewi Standard",
+    "title": "One rate. <gold>Nothing</gold> hidden in the boot.",
+    "text": "Most rentals in Bali start cheap and end complicated. Ours starts complete: the car, the driver and the fuel are already in the price you see.",
+    "pillars": [
+      {
+        "title": "A driver, not just a driver",
+        "text": "Licensed, English-speaking and born on the island. The kind of guide who knows which temple to reach before the tour buses, and where the good babi guling is."
+      },
+      {
+        "title": "Fuel is on us",
+        "text": "Go from Seminyak to Sidemen and back. The tank is our problem, never a surprise line on your bill at the end of the day."
+      },
+      {
+        "title": "Twelve unhurried hours",
+        "text": "From sunrise at the lake to sunset on the cliffs. Enough time to change your mind twice and still make dinner."
+      }
+    ],
+    "stats": [
+      { "value": 5000, "suffix": "+", "label": "Guests driven" },
+      { "value": 10, "suffix": "+", "label": "Years on Bali roads" },
+      { "value": 12, "suffix": "h", "label": "Per charter" },
+      { "value": 24, "suffix": "/7", "label": "Booking line" }
+    ]
+  },
+  "fleet": {
+    "eyebrow": "(02) — The Fleet",
+    "title": "Choose your <gold>cabin.</gold>",
+    "seats": "{{count}} seats",
+    "year": "{{year}}",
+    "prev": "Previous vehicle",
+    "next": "Next vehicle",
+    "book": "Book this car",
+    "noPhoto": "Photo coming soon"
+  },
+  "day": {
+    "eyebrow": "(03) — A Day With Us",
+    "title": "06:30 to 18:30. <gold>Yours</gold> entirely.",
+    "text": "Here's what twelve hours can look like. Keep it, change it or throw it away at lunch — your driver adapts.",
+    "stops": [
+      { "time": "06:30", "title": "Pick-up at your door", "text": "Cold water, charging cables and a plan waiting in the car." },
+      { "time": "08:00", "title": "First temple, before the crowds", "text": "Sarongs borrowed, offerings explained." },
+      { "time": "11:30", "title": "Lunch where drivers eat", "text": "The warung that isn't on the list." },
+      { "time": "14:00", "title": "A waterfall detour", "text": "Because you asked, and there's time." },
+      { "time": "17:30", "title": "Sunset on the cliffs", "text": "Parked, cooled and ready when you are." },
+      { "time": "18:30", "title": "Home, unhurried", "text": "Same smile at the door as at dawn." }
+    ]
+  },
+  "journeys": {
+    "eyebrow": "(04) — Signature Journeys",
+    "title": "Routes we'd <gold>take our family.</gold>",
+    "featured": "Featured journey",
+    "view": "View journey",
+    "details": "Details",
+    "photos": "{{count}} photos"
+  },
+  "voices": {
+    "eyebrow": "(05) — Voices",
+    "title": "Told by the <gold>back seat.</gold>",
+    "prev": "Previous review",
+    "next": "Next review",
+    "rating": "5 out of 5 stars",
+    "items": [
+      { "quote": "Our driver was so knowledgeable about Bali and took us to incredible places we never would have found on our own.", "name": "Sarah Johnson", "from": "Australia" },
+      { "quote": "Perfect for families! The 12-hour service gave us plenty of time to explore multiple temples and enjoy lunch at scenic spots.", "name": "Michael Chen", "from": "Singapore" },
+      { "quote": "Great value for money! Having gasoline included made budgeting so much easier. Highly recommend Amadewi Trans!", "name": "Emma Wilson", "from": "United Kingdom" }
+    ]
+  },
+  "home": {
+    "eyebrow": "(06) — Our Home",
+    "title": "Born in the village of <gold>moonstone.</gold>",
+    "text": "Batubulan means “moon stone”. It's the village in Sukawati where Bali's temple guardians are carved by hand and where the Barong dance is performed every morning. It's also where every Amadewi car starts its day — central to Ubud, Sanur and everything you came for.",
+    "garage": "Garage",
+    "address": "CV Amadewi Transport Service<br/>Batubulan, Sukawati, Gianyar",
+    "coordinates": "Coordinates",
+    "maps": "Open in Google Maps",
+    "mapLabel": "Stylised map of Bali with Batubulan marked"
+  },
+  "reserve": {
+    "eyebrow": "(07) — Reserve",
+    "title": "Your driver<br/>is <gold>waiting.</gold>",
+    "text": "Message us your dates. A real person in Batubulan replies — any hour."
+  }
+}

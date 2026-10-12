@@ -1,0 +1,26 @@
+{
+  "eyebrow": "Signature journey",
+  "close": "Close",
+  "gallery": "Photo {{n}} of {{total}}",
+  "tabsLabel": "Journey details",
+  "tabs": {
+    "overview": "Overview",
+    "inclusions": "What’s included"
+  },
+  "meta": {
+    "duration": "Duration",
+    "durationValue": "Up to 12 hours",
+    "vehicle": "Vehicle",
+    "vehicleValue": "Private car & driver",
+    "fuel": "Fuel",
+    "fuelValue": "Included"
+  },
+  "noDescription": "Tell us what you'd love to see and your driver will shape the day around it.",
+  "included": "Included",
+  "guests_one": "{{count}} guest",
+  "guests_other": "{{count}} guests",
+  "fewer": "Fewer guests",
+  "more": "More guests",
+  "cta": "Reserve on WhatsApp",
+  "fine": "No payment now. We confirm availability and your driver’s name by message."
+}

@@ -1,0 +1,26 @@
+{
+  "eyebrow": "Perjalanan unggulan",
+  "close": "Tutup",
+  "gallery": "Foto {{n}} dari {{total}}",
+  "tabsLabel": "Detail perjalanan",
+  "tabs": {
+    "overview": "Ringkasan",
+    "inclusions": "Termasuk"
+  },
+  "meta": {
+    "duration": "Durasi",
+    "durationValue": "Hingga 12 jam",
+    "vehicle": "Kendaraan",
+    "vehicleValue": "Mobil & sopir pribadi",
+    "fuel": "BBM",
+    "fuelValue": "Termasuk"
+  },
+  "noDescription": "Ceritakan apa yang ingin Anda lihat, dan sopir Anda akan menyusun harinya.",
+  "included": "Termasuk",
+  "guests_one": "{{count}} tamu",
+  "guests_other": "{{count}} tamu",
+  "fewer": "Kurangi tamu",
+  "more": "Tambah tamu",
+  "cta": "Pesan via WhatsApp",
+  "fine": "Tanpa pembayaran sekarang. Kami konfirmasi ketersediaan dan nama sopir lewat pesan."
+}

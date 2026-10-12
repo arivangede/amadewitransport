@@ -1,0 +1,60 @@
+{
+  "language": {
+    "name": "English",
+    "short": "EN",
+    "label": "Language",
+    "switchTo": "Switch to {{name}}"
+  },
+  "brand": {
+    "name": "Amadewi Trans",
+    "tagline": "Batubulan · Bali",
+    "home": "Amadewi Trans home"
+  },
+  "nav": {
+    "label": "Main",
+    "fleet": "Fleet",
+    "journeys": "Journeys",
+    "day": "A Day With Us",
+    "home": "Our Home",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "cta": {
+    "whatsapp": "Book on WhatsApp",
+    "whatsappShort": "WhatsApp"
+  },
+  "whatsapp": {
+    "greeting": "Hello Amadewi Trans, I would like to book:",
+    "item": "• {{item}}",
+    "discount": "With discount: {{discount}}",
+    "date": "For date: {{date}}",
+    "dateEmpty": "For date:",
+    "pickup": "Pick-up: {{pickup}}",
+    "guests": "Guests: {{guests}}",
+    "general": "a private car with driver"
+  },
+  "price": {
+    "perCar": "Per car, all-in",
+    "from": "From / 12h",
+    "off": "{{value}} OFF",
+    "promo": "Promo"
+  },
+  "footer": {
+    "about": "Private car & driver service from Batubulan, Sukawati, Bali.",
+    "services": "Services",
+    "destinations": "Destinations",
+    "contact": "Contact",
+    "charter": "Full-day charter",
+    "packages": "Tour packages",
+    "airport": "Airport transfer",
+    "custom": "Custom tours",
+    "available": "Available 24/7",
+    "rights": "© {{year}} Amadewi Trans. All rights reserved."
+  },
+  "state": {
+    "loading": "Loading…",
+    "empty": "Nothing to show yet — message us and we'll tailor one for you.",
+    "error": "We couldn't load this right now. Please try again shortly."
+  }
+}

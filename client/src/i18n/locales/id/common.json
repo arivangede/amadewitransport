@@ -1,0 +1,60 @@
+{
+  "language": {
+    "name": "Bahasa Indonesia",
+    "short": "ID",
+    "label": "Bahasa",
+    "switchTo": "Ganti ke {{name}}"
+  },
+  "brand": {
+    "name": "Amadewi Trans",
+    "tagline": "Batubulan · Bali",
+    "home": "Beranda Amadewi Trans"
+  },
+  "nav": {
+    "label": "Utama",
+    "fleet": "Armada",
+    "journeys": "Perjalanan",
+    "day": "Sehari Bersama Kami",
+    "home": "Rumah Kami",
+    "contact": "Kontak",
+    "openMenu": "Buka menu",
+    "closeMenu": "Tutup menu"
+  },
+  "cta": {
+    "whatsapp": "Pesan via WhatsApp",
+    "whatsappShort": "WhatsApp"
+  },
+  "whatsapp": {
+    "greeting": "Halo Amadewi Trans, saya ingin memesan:",
+    "item": "• {{item}}",
+    "discount": "Dengan diskon: {{discount}}",
+    "date": "Untuk tanggal: {{date}}",
+    "dateEmpty": "Untuk tanggal:",
+    "pickup": "Penjemputan: {{pickup}}",
+    "guests": "Jumlah tamu: {{guests}}",
+    "general": "mobil pribadi dengan sopir"
+  },
+  "price": {
+    "perCar": "Per mobil, semua termasuk",
+    "from": "Mulai / 12 jam",
+    "off": "Hemat {{value}}",
+    "promo": "Promo"
+  },
+  "footer": {
+    "about": "Layanan mobil & sopir pribadi dari Batubulan, Sukawati, Bali.",
+    "services": "Layanan",
+    "destinations": "Destinasi",
+    "contact": "Kontak",
+    "charter": "Sewa harian",
+    "packages": "Paket tur",
+    "airport": "Antar-jemput bandara",
+    "custom": "Tur sesuai keinginan",
+    "available": "Siap 24/7",
+    "rights": "© {{year}} Amadewi Trans. Hak cipta dilindungi."
+  },
+  "state": {
+    "loading": "Memuat…",
+    "empty": "Belum ada data — kirimi kami pesan dan kami siapkan untuk Anda.",
+    "error": "Data belum bisa dimuat. Silakan coba beberapa saat lagi."
+  }
+}

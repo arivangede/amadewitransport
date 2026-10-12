@@ -43,6 +43,62 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* ─── Landing design language: Obsidian, brushed gold, polished chrome ─── */
+@theme {
+  --color-ink: #0b0d10;
+  --color-surface: #12151a;
+  --color-raised: #171b21;
+  --color-well: #1a1e25;
+  --color-line: #262a31;
+  --color-line-strong: #3a3f47;
+  --color-ivory: #ece9e2;
+  --color-ivory-soft: #d6d3cc;
+  --color-mist: #a5aab1;
+  --color-fog: #858b93;
+  --color-gold: #c9a45c;
+  --color-gold-hi: #e8d19a;
+  --color-gold-deep: #8c6c33;
+  --color-promo: #3a1f14;
+  --color-promo-fg: #f2b79a;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Manrope", system-ui, sans-serif;
+  --font-code: "JetBrains Mono", ui-monospace, monospace;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-wipe: cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+@utility text-gold {
+  background: linear-gradient(100deg, #9c7a3c 0%, #e8d19a 36%, #c9a45c 58%, #f2e3b8 78%, #a8843f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-chrome {
+  background: linear-gradient(100deg, #8e949c 0%, #f1f3f6 40%, #aeb4bc 62%, #e4e7eb 82%, #7f858d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-gold-brushed {
+  background: linear-gradient(100deg, #b8914a, #e8d19a 50%, #c9a45c);
+}
+
+@utility eyebrow {
+  font-family: var(--font-code);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+@utility label-caps {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
 :root {
   --radius: 0.65rem;
   --background: oklch(1 0 0);
@@ -114,6 +170,55 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.landing {
+  font-family: var(--font-body);
+  background: var(--color-ink);
+  color: var(--color-ivory);
+  -webkit-font-smoothing: antialiased;
+}
+.landing ::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+.landing :focus-visible {
+  outline: 2px solid var(--color-gold-hi);
+  outline-offset: 3px;
+}
+
+@keyframes dash {
+  to { stroke-dashoffset: -16; }
+}
+
+@keyframes marquee-x {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing *,
+  .landing *::before,
+  .landing *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 200ms !important;
+  }
 }
 
 @layer base {

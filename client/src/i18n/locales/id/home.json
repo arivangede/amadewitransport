@@ -1,0 +1,154 @@
+{
+  "meta": {
+    "title": "Amadewi Trans | Sewa Mobil & Sopir Pribadi di Bali",
+    "description": "Mobil pribadi, sopir lokal, dan BBM untuk dua belas jam penuh dalam satu harga yang jujur. Paket tur dan antar-jemput bandara dari Batubulan, Bali."
+  },
+  "hero": {
+    "srTitle": "Amadewi Trans — sewa mobil dan sopir pribadi di Bali",
+    "region": "Sorotan",
+    "slideOf": "{{n}} dari {{total}}: {{label}}",
+    "goTo": "Ke slide {{n}}, {{label}}",
+    "prev": "Slide sebelumnya",
+    "next": "Slide berikutnya",
+    "pause": "Jeda slideshow",
+    "play": "Putar slideshow",
+    "slides": [
+      {
+        "label": "Sewa pribadi",
+        "kicker": "Sopir & mobil pribadi · Bali, Indonesia",
+        "line1": "Bali,",
+        "line2": "tanpa tergesa.",
+        "text": "Mobil pribadi, sopir lokal yang hafal pulau ini, dan BBM untuk dua belas jam penuh — dalam satu harga yang jujur.",
+        "cta": "Rencanakan hari saya",
+        "alt": "Pura Ulun Danu Beratan saat matahari terbit"
+      },
+      {
+        "label": "Sopir Anda",
+        "kicker": "Sopir Anda · Asli Bali",
+        "line1": "Sahabat lokal",
+        "line2": "di balik kemudi.",
+        "text": "Berlisensi dan fasih berbahasa Inggris. Tahu pura mana yang didatangi sebelum ramai — dan warung mana sesudahnya.",
+        "cta": "Lihat armada",
+        "alt": "Sopir Amadewi di samping Toyota Alphard hitam"
+      },
+      {
+        "label": "Rute warisan",
+        "kicker": "Perjalanan unggulan · Batubulan",
+        "line1": "Tempat seni Bali",
+        "line2": "bermula.",
+        "text": "Tari Barong, pemahat batu, perak Celuk, dan Tirta Empul — sepuluh jam dari depan rumah kami.",
+        "cta": "Lihat perjalanan",
+        "alt": "Topeng Barong dalam pertunjukan tari Bali"
+      },
+      {
+        "label": "Antar-jemput bandara",
+        "kicker": "Bandara · Kapan pun",
+        "line1": "Baru mendarat?",
+        "line2": "Kami sudah di sini.",
+        "text": "Nama Anda di pintu kedatangan, air dingin di mobil, dan perjalanan santai ke vila — jam berapa pun Anda tiba.",
+        "cta": "Pesan penjemputan",
+        "alt": "Candi bentar di Bandara Ngurah Rai membingkai landasan pacu"
+      }
+    ]
+  },
+  "booking": {
+    "service": "Layanan",
+    "date": "Tanggal",
+    "pickup": "Penjemputan",
+    "pickupPlaceholder": "Hotel, vila, atau area",
+    "guests": "Tamu",
+    "submit": "Minta penawaran",
+    "services": {
+      "charter": "Sewa harian · 12 jam",
+      "airport": "Antar-jemput bandara",
+      "package": "Paket tur"
+    }
+  },
+  "marquee": {
+    "label": "Destinasi",
+    "items": ["Ubud", "Tanah Lot", "Kintamani", "Uluwatu", "Sidemen", "Jatiluwih", "Batubulan", "Nusa Dua"]
+  },
+  "standard": {
+    "eyebrow": "(01) — Standar Amadewi",
+    "title": "Satu harga. <gold>Tanpa</gold> biaya tersembunyi.",
+    "text": "Banyak rental di Bali mulai murah lalu jadi rumit. Kami mulai lengkap: mobil, sopir, dan BBM sudah termasuk dalam harga yang Anda lihat.",
+    "pillars": [
+      {
+        "title": "Sopir yang juga pemandu",
+        "text": "Berlisensi, fasih berbahasa Inggris, dan asli Bali. Tahu pura mana yang dikunjungi sebelum bus wisata datang, dan di mana babi guling yang enak."
+      },
+      {
+        "title": "BBM kami tanggung",
+        "text": "Dari Seminyak ke Sidemen dan kembali. Urusan tangki bensin adalah urusan kami — tidak ada tagihan kejutan di akhir hari."
+      },
+      {
+        "title": "Dua belas jam yang santai",
+        "text": "Dari matahari terbit di danau hingga senja di tebing. Cukup waktu untuk berubah pikiran dua kali dan tetap sempat makan malam."
+      }
+    ],
+    "stats": [
+      { "value": 5000, "suffix": "+", "label": "Tamu diantar" },
+      { "value": 10, "suffix": "+", "label": "Tahun di jalanan Bali" },
+      { "value": 12, "suffix": " jam", "label": "Per sewa" },
+      { "value": 24, "suffix": "/7", "label": "Layanan pemesanan" }
+    ]
+  },
+  "fleet": {
+    "eyebrow": "(02) — Armada",
+    "title": "Pilih <gold>kabin Anda.</gold>",
+    "seats": "{{count}} kursi",
+    "year": "{{year}}",
+    "prev": "Kendaraan sebelumnya",
+    "next": "Kendaraan berikutnya",
+    "book": "Pesan mobil ini",
+    "noPhoto": "Foto segera hadir"
+  },
+  "day": {
+    "eyebrow": "(03) — Sehari Bersama Kami",
+    "title": "06.30 sampai 18.30. <gold>Milik Anda</gold> sepenuhnya.",
+    "text": "Seperti inilah dua belas jam bisa berjalan. Pertahankan, ubah, atau lupakan saat makan siang — sopir Anda menyesuaikan.",
+    "stops": [
+      { "time": "06.30", "title": "Dijemput di depan pintu", "text": "Air dingin, kabel pengisi daya, dan rencana sudah menunggu di mobil." },
+      { "time": "08.00", "title": "Pura pertama, sebelum ramai", "text": "Kain sarung dipinjamkan, sesajen dijelaskan." },
+      { "time": "11.30", "title": "Makan siang di warung langganan sopir", "text": "Warung yang tidak ada di daftar mana pun." },
+      { "time": "14.00", "title": "Mampir ke air terjun", "text": "Karena Anda minta, dan masih ada waktu." },
+      { "time": "17.30", "title": "Senja di tebing", "text": "Mobil sudah dingin dan siap kapan pun Anda." },
+      { "time": "18.30", "title": "Pulang dengan santai", "text": "Senyum yang sama di pintu seperti saat fajar." }
+    ]
+  },
+  "journeys": {
+    "eyebrow": "(04) — Perjalanan Unggulan",
+    "title": "Rute yang kami pilih <gold>untuk keluarga.</gold>",
+    "featured": "Perjalanan unggulan",
+    "view": "Lihat perjalanan",
+    "details": "Detail",
+    "photos": "{{count}} foto"
+  },
+  "voices": {
+    "eyebrow": "(05) — Kata Mereka",
+    "title": "Cerita dari <gold>kursi belakang.</gold>",
+    "prev": "Ulasan sebelumnya",
+    "next": "Ulasan berikutnya",
+    "rating": "5 dari 5 bintang",
+    "items": [
+      { "quote": "Sopir kami sangat paham tentang Bali dan membawa kami ke tempat-tempat luar biasa yang tidak akan kami temukan sendiri.", "name": "Sarah Johnson", "from": "Australia" },
+      { "quote": "Sempurna untuk keluarga! Layanan 12 jam memberi kami banyak waktu menjelajahi beberapa pura dan makan siang di tempat yang indah.", "name": "Michael Chen", "from": "Singapura" },
+      { "quote": "Sangat sepadan! BBM yang sudah termasuk membuat anggaran jauh lebih mudah. Sangat merekomendasikan Amadewi Trans!", "name": "Emma Wilson", "from": "Inggris" }
+    ]
+  },
+  "home": {
+    "eyebrow": "(06) — Rumah Kami",
+    "title": "Lahir di desa <gold>batu bulan.</gold>",
+    "text": "Di Batubulan, Sukawati, patung penjaga pura dipahat dengan tangan dan Tari Barong dipentaskan setiap pagi. Dari sinilah setiap mobil Amadewi memulai harinya — dekat dengan Ubud, Sanur, dan semua tujuan Anda.",
+    "garage": "Garasi",
+    "address": "CV Amadewi Transport Service<br/>Batubulan, Sukawati, Gianyar",
+    "coordinates": "Koordinat",
+    "maps": "Buka di Google Maps",
+    "mapLabel": "Peta Bali dengan penanda Batubulan"
+  },
+  "reserve": {
+    "eyebrow": "(07) — Pesan",
+    "title": "Sopir Anda<br/>sudah <gold>menunggu.</gold>",
+    "text": "Kirim tanggal perjalanan Anda. Tim kami di Batubulan membalas — kapan pun."
+  }
+}
